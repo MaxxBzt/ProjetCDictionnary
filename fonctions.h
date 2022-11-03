@@ -1,0 +1,8 @@
+//
+// Created by nolwen ngassa on 11/3/22.
+//
+
+#ifndef PROJETCDICTIONNARY_FONCTIONS_H
+#define PROJETCDICTIONNARY_FONCTIONS_H
+
+#endif //PROJETCDICTIONNARY_FONCTIONS_H
