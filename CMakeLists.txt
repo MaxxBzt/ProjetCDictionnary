@@ -4,4 +4,4 @@ project(ProjetCDictionnary C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(ProjetCDictionnary
-        main.c)
+        main.c structures.c fonctions.c fonctions.h)
