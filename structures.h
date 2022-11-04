@@ -39,7 +39,7 @@ typedef struct s_tree
  {
      char* forme_flechie;
      char* base_word;
-     char* troisieme_cate;
+     char* declinaison;
      char* type;
      struct dictionary_cell *next;
  } t_dictionarycell, *p_dictionarycell;
@@ -51,6 +51,9 @@ typedef struct s_tree
 
 p_node createNode(char);
 p_dictionarycell createCell_DictionaryList(char*, char*, char* );
+
+p_node createTreeNode(char letter);
+t_tree createTree(char letter);
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H

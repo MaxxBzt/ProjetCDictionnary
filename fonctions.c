@@ -85,7 +85,7 @@ t_dictionarylist Split_dictionary_in_linked_list()
     int nbr_of_types = 5;
 
 
-    FILE* dictionary_file = fopen("/Users/nolwen/Documents/GitHub/ProjetCDictionnary/test.txt", "r");
+    FILE* dictionary_file = fopen("test.txt", "r");
 
     // Boucle nous permettant de lire chaque ligne du fichier ci-dessus
 

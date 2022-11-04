@@ -23,10 +23,12 @@ int main()
     {
         while(temp != NULL)
         {
-            printf("%s %s %s %s",temp->type,temp->forme_flechie,temp->base_word,temp->troisieme_cate);
+            printf("%s %s %s %s",temp->type,temp->forme_flechie,temp->base_word,temp->declinaison);
             temp = temp->next;
         }
     }
+    t_tree vb_tree = createTree('a');
+    printf("%c",vb_tree.root->letter);
     return 0;
 }
 
