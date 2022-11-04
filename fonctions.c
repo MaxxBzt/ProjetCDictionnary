@@ -61,7 +61,7 @@ char** split_a_string(char* string, char separator, int *len_string)
     for(int i=0; i < counter_separator ; i++)
     {
         sprintf(tableau[idx],"%s",current_col);
-        current_col = strtok(NULL,&separator);
+        current_col = strtok(NULL,&separator); // Coupe tout le temps pour chaque separeteur
         idx ++;
     }
 
@@ -85,7 +85,7 @@ t_dictionarylist Split_dictionary_in_linked_list()
     int nbr_of_types = 5;
 
 
-    FILE* dictionary_file = fopen("test.txt", "r");
+    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
 
     // Boucle nous permettant de lire chaque ligne du fichier ci-dessus
 
@@ -215,4 +215,22 @@ p_node findIntersection(p_node start_node, char* word, int* index){
     }
 }
 
+void displayNodeChild(p_node node){
+    p_node temp=node;
+    printf("%c",temp->letter);
+    if (temp->child == NULL && temp->next==NULL){
+        return;
+    }
+    else{
+        if (temp->child != NULL){
+            printf("\ngoing in the children\n");
+            displayNodeChild(temp->child);
+        }
+        if (temp->next !=NULL) {
+            printf("\ngoing to the next letter\n");
+            displayNodeChild(temp->next);
+        }
+    }
+    return;
 
+}

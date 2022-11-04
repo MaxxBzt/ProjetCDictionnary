@@ -28,7 +28,26 @@ int main()
         }
     }
     t_tree vb_tree = createTree('a');
-    printf("%c",vb_tree.root->letter);
+    printf("%c\n\n\n",vb_tree.root->letter);
+
+    // Series of test for the display tree function
+    p_node test1,test2,test3,test4,test5;
+    test1 = createNode('a');
+    test2 = createNode('b');
+    test3 = createNode('c');
+    test4 = createNode('a');
+    test5 = createNode('d');
+
+    test1->child = test2;
+    test2->next = test3;
+    test3->child = test4;
+    test4->next = test5;
+
+    displayNodeChild(test1);
+
+
+
+
     return 0;
 }
 
