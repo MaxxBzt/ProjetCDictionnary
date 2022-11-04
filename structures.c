@@ -21,22 +21,19 @@ p_dictionarycell createCell_DictionaryList(char *forme_flechie, char *base_word,
 
 }
 
-p_node createTreeNode(char letter)
-{
-    p_node new;
-
-    new = (p_node)malloc(sizeof(t_node));
-    new->letter = letter;
-    new->child = new->next = NULL;
-    new->formes_flechies = NULL;
-
-    return new;
-}
-
 t_tree createTree(char letter){
     t_tree new_tree;
 
-    new_tree.root = createTreeNode(letter);
+    new_tree.root = createNode(letter);
     return new_tree;
 }
 
+p_flechiescell createFlechieCell(char* flechie, char* type){
+    p_flechiescell new;
+
+    new = (p_flechiescell)malloc(sizeof(t_flechiescell));
+    new->flechie_word = flechie;
+    new->type = type;
+
+    return new;
+}

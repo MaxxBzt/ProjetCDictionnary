@@ -11,5 +11,8 @@ t_dictionarylist Split_dictionary_in_linked_list();
 char** split_a_string(char* , char , int*);
 int Search_string_in_string(char*, char*);
 
+t_tree dicoFillLetters(t_dictionarylist);
+p_node findIntersection(p_node, char*, int*);
+
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

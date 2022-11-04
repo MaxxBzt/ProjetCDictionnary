@@ -52,8 +52,8 @@ typedef struct s_tree
 p_node createNode(char);
 p_dictionarycell createCell_DictionaryList(char*, char*, char* );
 
-p_node createTreeNode(char letter);
-t_tree createTree(char letter);
+t_tree createTree(char );
+p_flechiescell createFlechieCell(char*, char*);
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H
