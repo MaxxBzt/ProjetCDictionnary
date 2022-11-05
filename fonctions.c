@@ -142,8 +142,10 @@ t_tree dicoFillLetters(t_dictionarylist dico){
 
     /* variables temporaires */
     p_dictionarycell temp_line = dico.head;
+    p_flechieslist newFlechiesList, tempFlechiesList;
+    p_flechiescell newFlechhieCell, tempFlechieCell;
     p_node temp_node;
-    int idx_char = 0;
+    int idx_char = 0, stop=0;
     char* temp_word;
 
     /* répéter jusqu'à qu'on arrive sur une ligne vide (fin du dictionnaire) */
@@ -157,7 +159,7 @@ t_tree dicoFillLetters(t_dictionarylist dico){
             temp_word = temp_line->base_word;
 
             /* on cherche le bon arbre grace aux types */
-            if (temp_line->type == 'Ver'){
+            if (temp_line->type == 'Ver'){ // Look for the
 
                 /* l'arbre est-il vide ? */
                 if (ver_tree.root == NULL){
@@ -172,6 +174,33 @@ t_tree dicoFillLetters(t_dictionarylist dico){
                 }
 
                 /* insert ici la fonction ajouter aux formes fléchies */
+                if (temp_node->formes_flechies==NULL){
+                    // If there is no forme flechies yet we create the list and assign the first word
+                    newFlechhieCell = createFlechieCell(temp_line->forme_flechie,temp_line->declinaison);
+                    newFlechiesList = createFlechiesList(temp_line->base_word,newFlechhieCell);
+                    temp_node->formes_flechies = newFlechiesList;
+                }
+                else{
+                    // If there is already a list of forme flechies
+                    tempFlechiesList = temp_node->formes_flechies;
+                    tempFlechieCell = tempFlechiesList->head;
+                    while (tempFlechieCell->next==NULL){
+                        // We go to the end of the list to add the new flechie word
+                        if (tempFlechieCell->flechie_word==temp_line->forme_flechie && tempFlechieCell->declinaison==temp_line->declinaison ){
+                            // If the forme fléchie exists already we dont add it
+                            stop=1;
+                            break;
+                        }
+                        tempFlechieCell=tempFlechieCell->next;
+                    }
+                    if (stop==0)
+                    {
+                        // If the forme flechie doesn't exist then we add the new one
+                        newFlechhieCell = createFlechieCell(temp_line->forme_flechie, temp_line->declinaison);
+                        tempFlechieCell->next = newFlechhieCell;
+                        tempFlechiesList->number++;
+                    }
+                }
             }
 
         }
@@ -234,3 +263,7 @@ void displayNodeChild(p_node node){
     return;
 
 }
+
+
+
+

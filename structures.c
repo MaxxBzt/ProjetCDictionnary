@@ -28,12 +28,23 @@ t_tree createTree(char letter){
     return new_tree;
 }
 
-p_flechiescell createFlechieCell(char* flechie, char* type){
+p_flechiescell createFlechieCell(char* flechie, char* declinaison){
     p_flechiescell new;
 
     new = (p_flechiescell)malloc(sizeof(t_flechiescell));
     new->flechie_word = flechie;
-    new->type = type;
+    new->declinaison = declinaison;
+
+    return new;
+}
+
+p_flechieslist createFlechiesList(char * base_word, p_flechiescell head){
+    p_flechieslist new;
+
+    new = (p_flechieslist) malloc(sizeof (t_flechieslist));
+    new->base_word = base_word;
+    new->head = head;
+    new->number = 1;
 
     return new;
 }

@@ -12,7 +12,7 @@
 typedef struct flechies_cell
 {
     char* flechie_word;
-    char* type;
+    char* declinaison;
     struct flechies_cell *next;
 } t_flechiescell, *p_flechiescell;
 
@@ -54,6 +54,7 @@ p_dictionarycell createCell_DictionaryList(char*, char*, char* );
 
 t_tree createTree(char );
 p_flechiescell createFlechieCell(char*, char*);
+p_flechieslist createFlechiesList(char *, p_flechiescell);
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H
