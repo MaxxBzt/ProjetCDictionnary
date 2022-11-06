@@ -21,10 +21,10 @@ p_dictionarycell createCell_DictionaryList(char *forme_flechie, char *base_word,
 
 }
 
-t_tree createTree(char letter){
-    t_tree new_tree;
-
-    new_tree.root = createNode(letter);
+p_tree createTree(char letter){
+    p_tree new_tree;
+    new_tree = (p_tree) malloc(sizeof(t_tree));
+    new_tree->root = createNode(letter);
     return new_tree;
 }
 

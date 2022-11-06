@@ -31,7 +31,6 @@ int main()
     // Series of test for the display tree function
 
     p_tree pouet = createTree('/');
-    printf("%c\n", pouet->root->letter);
 
     init_trees(pouet, pouet, pouet, pouet, pouet, &dictionary_list);
 

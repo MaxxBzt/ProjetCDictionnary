@@ -281,7 +281,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
             undefined = 0;
         }*/
         if (undefined==1){
-            printf("%s type of word is not handled by our software :/",temp_line->type);
+            printf("%s type of word is not handled by our software \n",temp_line->type);
         }
         temp_line = temp_line->next;
     }

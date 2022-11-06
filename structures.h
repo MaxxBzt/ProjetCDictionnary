@@ -52,7 +52,7 @@ typedef struct s_tree
 p_node createNode(char);
 p_dictionarycell createCell_DictionaryList(char*, char*, char* );
 
-t_tree createTree(char letter);
+p_tree createTree(char letter);
 p_flechiescell createFlechieCell(char*, char*);
 p_flechieslist createFlechiesList(char *, p_flechiescell);
 
