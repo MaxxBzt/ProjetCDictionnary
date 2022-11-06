@@ -137,41 +137,68 @@ t_dictionarylist Split_dictionary_in_linked_list()
     return dictionary_list;
 }
 
-t_tree addToTree(t_dictionarylist dico){
-    t_tree ver_tree = createTree( '/' ); /* pre_tree, adj_tree, nom_tree, adv_tree; */
+p_node searchNextNode(p_node start_node, char letter){
+    p_node temp_node = start_node;
 
-    /* variables temporaires */
-    p_dictionarycell temp_line = dico.head;
+    if (temp_node->letter == letter){
+        return temp_node;
+    }
+    if (temp_node->next != NULL){
+        temp_node = temp_node->next;
+        searchNextNode(temp_node, letter);
+    }
+    else{
+        temp_node->next = createNode(letter);
+        return temp_node->next;
+    }
+}
+
+/* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
+p_node findIntersection(p_node start_node, char* word, int* index){
+    p_node temp_node = start_node;
+
+    if ( word[*index] != '\0'){
+
+        temp_node = searchNextNode(temp_node, word[*index]);
+
+        if (temp_node->child != NULL){
+            *index = *index + 1;
+            temp_node = findIntersection(temp_node->child, word, index);
+        }
+        else{
+            return temp_node;
+        }
+    }
+    return temp_node;
+}
+
+void addToTree(char* base_word, p_tree word_tree){
+
     p_flechieslist newFlechiesList, tempFlechiesList;
     p_flechiescell newFlechhieCell, tempFlechieCell;
     p_node temp_node;
     int idx_char = 0, stop=0;
-    char* temp_word = "null";
 
-    /* répéter jusqu'à qu'on arrive sur une ligne vide (fin du dictionnaire) */
-    while(temp_line != NULL)
-    {
-        /* le mot de base de la ligne est-il le même que celui utilisé précédement? */
-        /* si non: */
-        if (temp_word != temp_line->base_word){
+    if (word_tree->root->letter == '/'){
+        word_tree->root->letter = base_word[0];
+    }
+    else {
+        searchNextNode(word_tree->root, base_word[0]);
+    }
 
-            /* le nouveau mot temporaire est celui de la ligne actuelle */
-            temp_word = temp_line->base_word;
-            idx_char = 0;
-            /* on cherche le bon arbre grace aux types */
-            if (temp_line->type == "Ver"){ // Look for the type
+    temp_node = findIntersection(word_tree->root, base_word, &idx_char);
+    if ( base_word[idx_char+1] != '\0'){
 
-                /* l'arbre est-il vide ? */
-                if (ver_tree.root->letter == '/'){
-                    ver_tree.root->letter = temp_word[idx_char];
-                }
+        while ( base_word[idx_char] != '\0'){
 
-                temp_node = findIntersection(ver_tree.root, temp_word, &idx_char);
-                while (temp_word[idx_char] != '\0') {
-                    temp_node->child = createNode(temp_word[idx_char]);
-                    temp_node = temp_node->child;
-                    idx_char++;
-                }
+            temp_node->child = createNode(base_word[idx_char]);
+            idx_char++;
+            temp_node = temp_node->child;
+        }
+    }
+
+
+
                 /*
                 if (temp_node->formes_flechies==NULL){
                     // If there is no forme flechies yet we create the list and assign the first word
@@ -201,51 +228,8 @@ t_tree addToTree(t_dictionarylist dico){
                     }
 
                 }*/
-            }
-            printf("1\n");
-        }
-        temp_line = temp_line->next;
-    }
-    return ver_tree;
-}
 
-/* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
-p_node findIntersection(p_node start_node, char* word, int* index){
-
-    if (word[*index] != '\0'){
-        /* la lettre du node est-elle la meme que celle du mot à l'index donné? */
-        /* si oui: */
-        if (start_node->letter == word[*index]){
-            /* on peut explorer les nodes "enfants" à condition qu'ils ne soient pas vides */
-            *index = *index +1;
-
-            if (start_node->child != NULL){
-                *index = *index +1;
-                findIntersection(start_node->child, word, index);
-            }
-            else{
-                return start_node;
-            }
-        }
-
-            /* si non: */
-        else {
-            /* on continue à explorer les nodes au même index */
-            if (start_node->next != NULL ){
-                findIntersection(start_node->next, word, index);
-                *index = *index + 1;
-            }
-            else{ /* si la lettre n'existe pas à cet index, on le crée */
-                if (word[*index] != start_node->letter){
-                    start_node->next = createNode(word[*index]);
-                }
-                start_node = start_node->next;
-
-                return start_node;
-            }
-        }
-    }
-    return start_node;
+    return;
 }
 
 void displayNodeChild(p_node node){
@@ -272,30 +256,30 @@ void displayNodeChild(p_node node){
 
 void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom,t_dictionarylist* dico){
     p_dictionarycell temp_line = dico->head;
-    int undefined=1;
+    int undefined;
     //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
     while(temp_line != NULL){
         undefined = 1;
         if (strcmp(temp_line->type,"Ver")==0){
-            addToTree(temp_line,tree_ver);
+            addToTree(temp_line->base_word,tree_ver);
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Pre")==0){
-            addToTree(temp_line,tree_pre);
+        /* if (strcmp(temp_line->type,"Pre")==0){
+            addToTree(temp_line->base_word,tree_pre);
             undefined = 0;
         }
         if (strcmp(temp_line->type,"Adj")==0){
-            addToTree(temp_line,tree_adj);
+            addToTree(temp_line->base_word,tree_adj);
             undefined = 0;
         }
         if (strcmp(temp_line->type,"Adv")==0){
-            addToTree(temp_line,tree_adv);
+            addToTree(temp_line->base_word,tree_adv);
             undefined = 0;
         }
         if (strcmp(temp_line->type,"Nom")==0){
-            addToTree(temp_line,tree_nom);
+            addToTree(temp_line->base_word,tree_nom);
             undefined = 0;
-        }
+        }*/
         if (undefined==1){
             printf("%s type of word is not handled by our software :/",temp_line->type);
         }

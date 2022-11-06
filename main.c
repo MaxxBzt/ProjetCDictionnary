@@ -27,15 +27,15 @@ int main()
             temp = temp->next;
         }
     }
-    t_tree vb_tree = createTree('a');
-    printf("%c\n\n\n",vb_tree.root->letter);
 
     // Series of test for the display tree function
 
-    p_node test1,test2,test3,test4,test5, tpouet;
-    t_tree pouet = addToTree(dictionary_list);
-    displayNodeChild(pouet.root);
+    p_tree pouet = createTree('/');
+    printf("%c\n", pouet->root->letter);
 
+    init_trees(pouet, pouet, pouet, pouet, pouet, &dictionary_list);
+
+    displayNodeChild(pouet->root);
 
     return 0;
 }
