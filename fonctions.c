@@ -160,9 +160,9 @@ p_node findIntersection(p_node start_node, char* word, int* index){
     if ( word[*index] != '\0'){
 
         temp_node = searchNextNode(temp_node, word[*index]);
+        *index = *index + 1;
 
         if (temp_node->child != NULL){
-            *index = *index + 1;
             temp_node = findIntersection(temp_node->child, word, index);
         }
         else{
@@ -187,14 +187,11 @@ void addToTree(char* base_word, p_tree word_tree){
     }
 
     temp_node = findIntersection(word_tree->root, base_word, &idx_char);
-    if ( base_word[idx_char+1] != '\0'){
+    while ( base_word[idx_char] != '\0'){
 
-        while ( base_word[idx_char] != '\0'){
-
-            temp_node->child = createNode(base_word[idx_char]);
-            idx_char++;
-            temp_node = temp_node->child;
-        }
+        temp_node->child = createNode(base_word[idx_char]);
+        idx_char++;
+        temp_node = temp_node->child;
     }
 
 

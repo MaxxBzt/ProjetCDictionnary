@@ -7,6 +7,8 @@
 p_node createNode(char letter){
     p_node node = malloc(sizeof(t_node));
     node->letter = letter;
+    node->child = NULL;
+    node->next = NULL;
     return node;
 }
 
