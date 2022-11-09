@@ -12,6 +12,8 @@ int main()
     test = createNode('a');
     printf("%c",test->letter);*/
 
+    /*
+
     t_dictionarylist dictionary_list;
     dictionary_list = Split_dictionary_in_linked_list();
     p_dictionarycell temp = dictionary_list.head;
@@ -27,14 +29,16 @@ int main()
             temp = temp->next;
         }
     }
+    */
 
     // Series of test for the display tree function
 
     p_tree pouet = createTree('/');
 
-    init_trees(pouet, pouet, pouet, pouet, pouet, &dictionary_list);
 
-    displayNodeChild(pouet->root);
+    init_trees(pouet, pouet, pouet, pouet, pouet);
+
+    //displayNodeChild(pouet->root);
 
     return 0;
 }

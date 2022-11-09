@@ -85,7 +85,7 @@ t_dictionarylist Split_dictionary_in_linked_list()
     int nbr_of_types = 5;
 
 
-    FILE* dictionary_file = fopen("test.txt", "r");
+    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
 
     // Boucle nous permettant de lire chaque ligne du fichier ci-dessus
 
@@ -95,6 +95,19 @@ t_dictionarylist Split_dictionary_in_linked_list()
 
         array_of_sub_lines = split_a_string(line_of_the_dictionary_file, '\t', &nb_of_characters_in_a_line);
 
+        cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
+
+        for(int i = 0; i < nbr_of_types ;i++)
+        {
+            if(Search_string_in_string(array_of_sub_lines[2], types[i]) == 1)
+            {
+                cell->type = types[i];
+
+                break;
+            }
+        }
+
+        /*
         // On s'occupe d'abord de ranger la première ligne en tant que Head de la liste
         if (is_it_first_node_of_the_list == 0)
         {
@@ -130,7 +143,12 @@ t_dictionarylist Split_dictionary_in_linked_list()
             current_cell->next = cell;
             current_cell = cell;
         }
+        */
+
+
     }
+
+
 
     fclose(dictionary_file);
 
@@ -251,14 +269,39 @@ void displayNodeChild(p_node node){
 
 }
 
-void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom,t_dictionarylist* dico){
-    p_dictionarycell temp_line = dico->head;
+void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     int undefined;
     //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
-    while(temp_line != NULL){
+
+
+    char line_of_the_dictionary_file[500];
+    char **array_of_sub_lines;
+    int nb_of_characters_in_a_line = 0 ;
+    char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
+    int nbr_of_types = 5;
+    p_dictionarycell cell;
+    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
+
+
+    while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
+    {
+        array_of_sub_lines = split_a_string(line_of_the_dictionary_file, '\t', &nb_of_characters_in_a_line);
+
+        cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
+        //printf("%s\n",cell->base_word);
+
+        for(int i = 0; i < nbr_of_types ;i++)
+        {
+            if(Search_string_in_string(array_of_sub_lines[2], types[i]) == 1)
+            {
+                cell->type = types[i];
+                break;
+            }
+        }
         undefined = 1;
-        if (strcmp(temp_line->type,"Ver")==0){
-            addToTree(temp_line->base_word,tree_ver);
+        if (strcmp(cell->type,"Ver")==0){
+            addToTree(cell->base_word,tree_ver);
+            printf("%s\n",cell->base_word);
             undefined = 0;
         }
         /* if (strcmp(temp_line->type,"Pre")==0){
@@ -278,10 +321,45 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
             undefined = 0;
         }*/
         if (undefined==1){
+            printf("%s type of word is not handled by our software \n",cell->type);
+        }
+
+    }
+
+
+
+/*
+    while(temp_line != NULL){
+        undefined = 1;
+        if (strcmp(temp_line->type,"Ver")==0){
+            addToTree(temp_line->base_word,tree_ver);
+            printf("%s\n",temp_line->base_word);
+            undefined = 0;
+        }
+        /* if (strcmp(temp_line->type,"Pre")==0){
+            addToTree(temp_line->base_word,tree_pre);
+            undefined = 0;
+        }
+        if (strcmp(temp_line->type,"Adj")==0){
+            addToTree(temp_line->base_word,tree_adj);
+            undefined = 0;
+        }
+        if (strcmp(temp_line->type,"Adv")==0){
+            addToTree(temp_line->base_word,tree_adv);
+            undefined = 0;
+        }
+        if (strcmp(temp_line->type,"Nom")==0){
+            addToTree(temp_line->base_word,tree_nom);
+            undefined = 0;
+        }
+        if (undefined==1){
             printf("%s type of word is not handled by our software \n",temp_line->type);
         }
         temp_line = temp_line->next;
-    }
+    }*/
+
+
+
 }
 
 

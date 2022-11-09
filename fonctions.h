@@ -17,7 +17,8 @@ p_node searchNextNode(p_node, char);
 void addToTree(char*, p_tree);
 
 void displayNodeChild(p_node);
-void init_trees(p_tree,p_tree,p_tree,p_tree,p_tree,t_dictionarylist*);
+
+void init_trees(p_tree,p_tree,p_tree,p_tree,p_tree);
 
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H
