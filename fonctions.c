@@ -171,9 +171,18 @@ p_node searchNextNode(p_node start_node, char letter){
     }
 }
 
+p_node findIfLetterInList(p_node node,char letter){
+    p_node temp = NULL, search=node;
+    while (search->letter != letter && search!=NULL){
+        search = search->next;
+    }
+    return search;
+}
+
 /* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
 p_node findIntersection(p_node start_node, char* word, int* index){
-    p_node temp_node = start_node;
+    p_node temp_node ;
+    temp_node = start_node;
 
     if ( word[*index] != '\0'){
 
@@ -300,7 +309,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
         }
         undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
-            addToTree(cell->base_word,tree_ver);
+            // addToTree(cell->base_word,tree_ver);
             printf("%s\n",cell->base_word);
             undefined = 0;
         }

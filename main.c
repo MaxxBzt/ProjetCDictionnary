@@ -35,10 +35,25 @@ int main()
 
     p_tree pouet = createTree('/');
 
+    p_node un = createNode('a');
+    p_node deux = createNode('b');
+    p_node trois = createNode('c');
+    p_node quatre = createNode('d');
 
-    init_trees(pouet, pouet, pouet, pouet, pouet);
+    un->next = deux;
+    deux->next = trois;
+    trois->next = quatre;
 
-    //displayNodeChild(pouet->root);
+    /*
+    if (findIfLetterInList(un,'d')!=NULL){
+        printf("%c\n",findIfLetterInList(un,'d')->letter);
+    }
+     */
+
+
+    init_trees(pouet, NULL, NULL, NULL, NULL);
+
+    displayNodeChild(pouet->root);
 
     return 0;
 }
