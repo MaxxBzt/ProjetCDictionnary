@@ -14,7 +14,7 @@ int Search_string_in_string(char*, char*);
 p_node findIntersection(p_node, char*, int*);
 p_node searchNextNode(p_node, char);
 
-void addToTree(char*, p_tree);
+void addToTree(p_dictionarycell, p_tree);
 
 void displayNodeChild(p_node);
 

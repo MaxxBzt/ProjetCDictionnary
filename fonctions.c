@@ -199,19 +199,20 @@ p_node findIntersection(p_node start_node, char* word, int* index){
     return temp_node;
 }
 
-void addToTree(char* base_word, p_tree word_tree){
+void addToTree(p_dictionarycell temp_line, p_tree word_tree){
 
     p_flechieslist newFlechiesList, tempFlechiesList;
     p_flechiescell newFlechhieCell, tempFlechieCell;
+    char* base_word = temp_line->base_word;
     p_node temp_node;
     int idx_char = 0, stop=0;
 
     if (word_tree->root->letter == '/'){
         word_tree->root->letter = base_word[0];
     }
-    else {
+    /* else {
         searchNextNode(word_tree->root, base_word[0]);
-    }
+    }*/
 
     temp_node = findIntersection(word_tree->root, base_word, &idx_char);
     while ( base_word[idx_char] != '\0'){
@@ -221,37 +222,34 @@ void addToTree(char* base_word, p_tree word_tree){
         temp_node = temp_node->child;
     }
 
+    if (temp_node->formes_flechies==NULL){
+        // If there is no forme flechies yet we create the list and assign the first word
+        newFlechhieCell = createFlechieCell(temp_line->forme_flechie,temp_line->declinaison);
+        newFlechiesList = createFlechiesList(temp_line->base_word,newFlechhieCell);
+        temp_node->formes_flechies = newFlechiesList;
+    }
+    else{
+        // If there is already a list of forme flechies
+        tempFlechiesList = temp_node->formes_flechies;
+        tempFlechieCell = tempFlechiesList->head;
+        while ( tempFlechieCell->next != NULL ){
+            // We go to the end of the list to add the new flechie word
+            if (tempFlechieCell->flechie_word==temp_line->forme_flechie && tempFlechieCell->declinaison==temp_line->declinaison ){
+                // If the forme fléchie exists already we dont add it
+                stop=1;
+                break;
+            }
+            tempFlechieCell=tempFlechieCell->next;
+        }
+        if (stop==0)
+        {
+            // If the forme flechie doesn't exist then we add the new one
+            newFlechhieCell = createFlechieCell(temp_line->forme_flechie, temp_line->declinaison);
+            tempFlechieCell->next = newFlechhieCell;
+            tempFlechiesList->number++;
+        }
 
-
-                /*
-                if (temp_node->formes_flechies==NULL){
-                    // If there is no forme flechies yet we create the list and assign the first word
-                    newFlechhieCell = createFlechieCell(temp_line->forme_flechie,temp_line->declinaison);
-                    newFlechiesList = createFlechiesList(temp_line->base_word,newFlechhieCell);
-                    temp_node->formes_flechies = newFlechiesList;
-                }
-                else{
-                    // If there is already a list of forme flechies
-                    tempFlechiesList = temp_node->formes_flechies;
-                    tempFlechieCell = tempFlechiesList->head;
-                    while (tempFlechieCell->next==NULL){
-                        // We go to the end of the list to add the new flechie word
-                        if (tempFlechieCell->flechie_word==temp_line->forme_flechie && tempFlechieCell->declinaison==temp_line->declinaison ){
-                            // If the forme fléchie exists already we dont add it
-                            stop=1;
-                            break;
-                        }
-                        tempFlechieCell=tempFlechieCell->next;
-                    }
-                    if (stop==0)
-                    {
-                        // If the forme flechie doesn't exist then we add the new one
-                        newFlechhieCell = createFlechieCell(temp_line->forme_flechie, temp_line->declinaison);
-                        tempFlechieCell->next = newFlechhieCell;
-                        tempFlechiesList->number++;
-                    }
-
-                }*/
+    }
 
     return;
 }
@@ -289,7 +287,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
     char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
     int nbr_of_types = 5;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\GitHub\\ProjetCDictionnarytest\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -309,7 +307,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
         }
         undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
-            // addToTree(cell->base_word,tree_ver);
+            addToTree(cell,tree_ver);
             printf("%s\n",cell->base_word);
             undefined = 0;
         }
@@ -332,6 +330,8 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
         if (undefined==1){
             printf("%s type of word is not handled by our software \n",cell->type);
         }
+
+
 
     }
 

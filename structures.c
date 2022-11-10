@@ -9,6 +9,7 @@ p_node createNode(char letter){
     node->letter = letter;
     node->child = NULL;
     node->next = NULL;
+    node->formes_flechies = NULL;
     return node;
 }
 
@@ -36,6 +37,7 @@ p_flechiescell createFlechieCell(char* flechie, char* declinaison){
     new = (p_flechiescell)malloc(sizeof(t_flechiescell));
     new->flechie_word = flechie;
     new->declinaison = declinaison;
+    new->next = NULL;
 
     return new;
 }
