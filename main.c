@@ -56,6 +56,7 @@ int main()
 
 
 
+
     init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
 
     displayNodeChild(verbe_arbre->root);
