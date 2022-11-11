@@ -51,7 +51,7 @@ int main()
     printf("%c\n", quatre->next->letter);
      */
 
-
+    /*
     p_node root = createNode('/');
 
     createNodeInTree(root,"avoir");
@@ -59,18 +59,21 @@ int main()
     createNodeInTree(root,"avortement");
     createNodeInTree(root,"battre");
 
-
-
+     */
 
 
     init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
 
     displayNodeChild(verbe_arbre->root);
 
+
+    /*
+
     // Search word in verbe_arbre
     char word[20] = "abaisser";
     int test = isWordInTree(word, verbe_arbre);
     printf("is word in tree verbe: %d\n",test);
+     */
 
 
 

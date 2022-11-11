@@ -178,6 +178,8 @@ void createNodeInTree(p_node node,char* word){
 
 
 
+
+
 /* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
 p_node findIntersection(p_node start_node, char* word, int* index){
     p_node temp_node ;
@@ -206,18 +208,9 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
     p_node temp_node;
     int idx_char = 0, stop=0;
 
-    if (word_tree->root->letter == '/'){
-        word_tree->root->letter = base_word[0];
-    }
+    createNodeInTree(word_tree->root, temp_line->base_word);
 
-
-    temp_node = findIntersection(word_tree->root, base_word, &idx_char);
-    while ( base_word[idx_char] != '\0'){
-
-        temp_node->child = createNode(base_word[idx_char]);
-        idx_char++;
-        temp_node = temp_node->child;
-    }
+    /*
 
     if (temp_node->formes_flechies==NULL){
         // If there is no forme flechies yet we create the list and assign the first word
@@ -247,6 +240,7 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
         }
 
     }
+     */
 
     return;
 }
