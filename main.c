@@ -33,7 +33,7 @@ int main()
 
     // Series of test for the display tree function
 
-    p_tree pouet = createTree('/');
+    p_tree verbe_arbre = createTree('/');
 
     p_node un = createNode('a');
     p_node deux = createNode('b');
@@ -51,9 +51,15 @@ int main()
      */
 
 
-    init_trees(pouet, NULL, NULL, NULL, NULL);
+    init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
 
-    displayNodeChild(pouet->root);
+    displayNodeChild(verbe_arbre->root);
+
+    // Search word in verbe_arbre
+    char word[20] = "abaisser";
+    int test = isWordInTree(word, verbe_arbre);
+    printf("is word in tree verbe: %d\n",test);
+
 
     return 0;
 }
