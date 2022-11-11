@@ -20,6 +20,7 @@ void displayNodeChild(p_node);
 
 void init_trees(p_tree,p_tree,p_tree,p_tree,p_tree);
 p_node findIfLetterInList(p_node ,char );
+void createNodeInTree(p_node ,char* );
 
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

@@ -171,13 +171,78 @@ p_node searchNextNode(p_node start_node, char letter){
     }
 }
 
-p_node findIfLetterInList(p_node node,char letter){
+/* Version iterative
+ * p_node findIfLetterInList(p_node node,char letter){
     p_node temp = NULL, search=node;
-    while (search->letter != letter && search!=NULL){
+    while (search->next!=NULL) {
+        if (search->letter == letter){
+            return search;
+        }
         search = search->next;
     }
-    return search;
+    temp = createNode(letter);
+    search->next = temp;
+    return temp;
+}*/
+
+p_node findIfLetterInList(p_node node,char letter){
+    p_node temp = NULL;
+    if (node->letter == letter){
+        return node;
+    }
+    if (node->next==NULL){
+        temp = createNode(letter);
+        node->next = temp;
+        return temp;
+    }
+    else{
+        return findIfLetterInList(node->next, letter);
+    }
+
 }
+
+
+void createNodeInTree(p_node node,char* word){
+    int index = 0;
+    p_node search = node ;
+    if (node->letter=='/'){
+        node->letter = word[index];
+    }
+    while (word[index+1]!='\0'){
+        if (search->letter == word[index]){
+            if (search->child == NULL){
+                search->child = createNode(word[index+1]);
+                search = search->child;
+            }
+            else{
+                search = search->child;
+            }
+        }
+        else{
+            search = findIfLetterInList(search, word[index]);
+            if (search->child == NULL){
+                search->child = createNode(word[index+1]);
+                search = search->child;
+            }
+            else{
+                search = search->child;
+            }
+        }
+
+
+        index++;
+    }
+}
+
+
+/*
+findAwordInTree(p_node node,char* word){
+    int temp=0;
+    while (word[temp] !='\0'){
+
+    }
+}
+ */
 
 /* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
 p_node findIntersection(p_node start_node, char* word, int* index){
@@ -208,9 +273,6 @@ void addToTree(char* base_word, p_tree word_tree){
 
     if (word_tree->root->letter == '/'){
         word_tree->root->letter = base_word[0];
-    }
-    else {
-        searchNextNode(word_tree->root, base_word[0]);
     }
 
     temp_node = findIntersection(word_tree->root, base_word, &idx_char);
@@ -309,8 +371,8 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
         }
         undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
-            // addToTree(cell->base_word,tree_ver);
-            printf("%s\n",cell->base_word);
+            printf("%s\n",cell->forme_flechie);
+            createNodeInTree(tree_ver->root,cell->forme_flechie);
             undefined = 0;
         }
         /* if (strcmp(temp_line->type,"Pre")==0){
