@@ -4,15 +4,19 @@
 #include <stdio.h>
 #include "structures.h"
 #include "fonctions.h"
+#include "menus.h"
+
 
 int main()
 {
+    starter_menu();
+
     /*
     p_node test;
     test = createNode('a');
     printf("%c",test->letter);*/
 
-    t_dictionarylist dictionary_list;
+    /*t_dictionarylist dictionary_list;
     dictionary_list = Split_dictionary_in_linked_list();
     p_dictionarycell temp = dictionary_list.head;
     if(temp == NULL)
@@ -34,7 +38,7 @@ int main()
 
     init_trees(pouet, pouet, pouet, pouet, pouet, &dictionary_list);
 
-    displayNodeChild(pouet->root);
+    displayNodeChild(pouet->root);*/
 
     return 0;
 }
