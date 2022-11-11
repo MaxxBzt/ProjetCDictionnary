@@ -4,16 +4,16 @@
 
 #include "menus.h"
 
-void starter_menu(){
+void starter_menu(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     int option = 0;
     printf("-------------------------------------------------\n");
     printf("-                 MENU                          -\n");
     printf("-------------------------------------------------\n");
 
-    printf("- Entrer 1 pour chercher un mot                 -\n");
-    printf("- Entrer 2 pour chercher un mot aleatoire       -\n");
-    printf("- Entrer 3 pour generer des phrases aleatoires  -\n");
-    printf("- Entrer 0 pour sortir du programme             -\n");
+    printf("- Enter 1 to search if a word is in a tree      -\n");
+    printf("- Enter 2 to obtain a random word from a tree   -\n");
+    printf("- Enter 3 to generate random sentences          -\n");
+    printf("- Enter 0 to exit the program                   -\n");
     printf("-------------------------------------------------\n");
 
     printf(">>");
@@ -22,37 +22,229 @@ void starter_menu(){
     switch(option){
         case 0:
         {
-            break; // Sortir du programme
+            break; // EXIT THE PROGRAM
         }
         case 1:
         {
-            FirstChoice_Submenu_One(); //Chercher un mot
+            FirstChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //Search if a word is in a tree
         }
         case 2:
         {
-            SecondChoice_Submenu_One(); //search a word randomly
+            SecondChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //Extract a random word from a tree
         }
         case 3:
         {
-            ThirdChoice_Submenu_One(); //generate random sentences
+            ThirdChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //generate random sentences
         }
         default:
         {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
-void FirstChoice_Submenu_One(){
+void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
+{
     /*
-     * L'utilisateur cherche si le mot qu'il entre est dans la base de donnée
+
+     */
+    int submenu_choice;
+    printf("What is the type of your word?\n"
+           "ATTENTION: If you don't know the type of your word, please look it up on the internet.\n"
+           "1. Enter 1 for verbs\n"
+           "2. Enter 2 for adjectives\n"
+           "3. Enter 3 for adverbs\n"
+           "4. Enter 4 for nouns\n"
+           "5. Enter 5 for pre\n"
+           "6. Enter 6 to go back to the starter menu\n>>>");
+    scanf(" %d", &submenu_choice);
+
+    switch (submenu_choice)
+    {
+        case 1 :
+        { // We search the word in tree of verbs
+
+            FirstChoice_Submenu_Two(tree_ver,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 2:
+        { // We search the word in tree of adjectives
+            FirstChoice_Submenu_Two(tree_adj,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 3:
+        { // We search the word in tree of adverbs
+            FirstChoice_Submenu_Two(tree_adv,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 4 :
+        { // We search the word in tree of nouns
+            FirstChoice_Submenu_Two(tree_nom,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 5 :
+        { // We search the word in tree of pre
+            FirstChoice_Submenu_Two(tree_pre,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 6 :
+        { // to go back to the starter menu
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        default :
+        {
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+
+    }
+}
+
+void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+    /*
+     * The function will make the program search if the word entered by the user in the current tree
      */
     int choice;
-    printf("Voulez vous chercher les mots a partir de leurs formes de bases ou leurs mots flechies ?\n"
-           "1. Entrer 1 pour formes de bases\n"
-           "2. Entrer 2 pour formes flechies\n"
-           "3. Entrer 3 pour revenir sur le menu de depart\n>>>");
+    printf("Do you want to search the word according to its forme de base or forme flechie?\n"
+           "1. Enter 1 for formes de bases\n"
+           "2. Enter 2 for formes flechies\n"
+           "3. Enter 3 to go back to the starter menu\n>>>");
+    scanf(" %d", &choice);
+
+    char mot[30];
+    int isWordIntree;
+    switch(choice)
+    {
+        case 1:
+        { //formes de bases
+            printf("What is your word?\n");
+            scanf("%s",mot);
+            isWordIntree = isWordInTree(mot,current_tree);
+            if (isWordIntree == 1)
+                printf("The word : %s is in the tree of type : %s\n",mot,current_tree->type);
+            else
+                printf("The word : %s is not in the tree of type : %s\n",mot,current_tree->type);
+            break;
+        }
+        case 2 :
+        { // formes fléchies
+            // ETAPE 7
+            break;
+        }
+        case 3:
+        { // going back to menu
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        default:
+        {
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+    }
+}
+
+void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
+{
+    /*
+
+     */
+    int submenu_choice;
+    printf("What is the type of your word?\n"
+           "ATTENTION: If you don't know the type of your word, please look it up on the internet.\n"
+           "1. Enter 1 for verbs\n"
+           "2. Enter 2 for adjectives\n"
+           "3. Enter 3 for adverbs\n"
+           "4. Enter 4 for nouns\n"
+           "5. Enter 5 for pre\n"
+           "6. Enter 6 to go back to the starter menu\n>>>");
+    scanf(" %d", &submenu_choice);
+
+    switch (submenu_choice)
+    {
+        case 1 :
+        { // We search a random word in the tree of verbs
+            SecondChoice_Submenu_Two(tree_ver,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 2:
+        { // We search a random word in the tree of adjectives
+            SecondChoice_Submenu_Two(tree_adj,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 3:
+        { // We search a random word in the tree of adverbs
+            SecondChoice_Submenu_Two(tree_adv,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 4 :
+        { // We search a random word in the tree of verbs nouns
+            SecondChoice_Submenu_Two(tree_nom,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 5 :
+        { // We search a random word in the tree of pre
+            SecondChoice_Submenu_Two(tree_pre,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        case 6 :
+        { // go back to the starter menu
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        default :
+        {
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+
+    }
+}
+
+void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+    /*
+     *
+     */
+    int choice;
+    printf("Do you want to generate a random word according to its forme de base or forme flechie?\n"
+           "1. Enter 1 for formes de bases\n"
+           "2. Enter 2 for formes flechies\n"
+           "3. Enter 3 to go back to the starter menu\n>>>");
+    scanf(" %d", &choice);
+
+    switch(choice)
+    {
+        case 1:
+        { //formes de bases
+            // A VOIR
+            break;
+        }
+        case 2 :
+        { // formes fléchies
+            // A VOIR
+            break;
+        }
+        case 3:
+        { // going back to menu
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+        default:
+        {
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+        }
+    }
+}
+
+
+void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+    /*
+     *
+     */
+    int choice;
+    printf("Do you want to generate sentences of words based on their forme de base or forme flechie?\n"
+           "1. Enter 1 for formes de bases\n"
+           "2. Enter 2 for formes flechies\n"
+           "3. Enter 3 to go back to the starter menu\n>>>");
     scanf(" %d", &choice);
 
     char mot[30];
@@ -60,235 +252,87 @@ void FirstChoice_Submenu_One(){
     {
         case 1:
         { //formes de bases
-            printf("Quel est votre mot ?\n");
-            scanf("%s",mot);
-            FirstChoice_Submenu_Two('b',mot);
-            break;
-        }
-        case 2 :
-        { // formes fléchies
-            printf("Quel est votre mot ?\n");
-            scanf("%s",mot);
-            FirstChoice_Submenu_Two('f',mot);
-            break;
-        }
-        case 3:
-        { // going back to menu
-            starter_menu();
-        }
-        default:
-        {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
-        }
-    }
-}
-
-void FirstChoice_Submenu_Two(char type, char *mot)
-{
-    /*
-
-     */
-    int submenu_choice;
-    printf("Quel est le type de votre mot\n"
-           "ATTENTION: Si vous ne connaissez pas le type de votre mot, cherchez sur internet.\n"
-           "1. Entrer 1 pour verbes\n"
-           "2. Entrer 2 pour adjectifs\n"
-           "3. Entrer 3 pour adverbes\n"
-           "4. Entrer 4 pour noms\n"
-           "5. Entrer 5 pour revenir au menu de depart\n>>>");
-    scanf(" %d", &submenu_choice);
-
-    switch (submenu_choice)
-    {
-        case 1 :
-        { // On cherche un mot dans l'arbre des verbes
-
-            starter_menu();
-        }
-        case 2:
-        { // On cherche un mot dans l'arbre des adjectifs
-            starter_menu();
-        }
-        case 3:
-        { // On cherche un mot dans l'arbre des adverbes
-            starter_menu();
-        }
-        case 4 :
-        { // On cherche un mot dans l'arbre des noms
-            starter_menu();
-        }
-        case 5 :
-        { // Retourner au menu de départ
-            starter_menu();
-        }
-        default :
-        {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
-        }
-
-    }
-}
-
-void SecondChoice_Submenu_One(){
-    /*
-     *
-     */
-    int choice;
-    printf("Voulez vous generer un mot aleatoire a partir de leurs formes de bases ou leurs mots flechies ?\n"
-           "1. Entrer 1 pour formes de bases\n"
-           "2. Entrer 2 pour formes flechies\n"
-           "3. Entrer 3 pour revenir sur le menu de depart\n>>>");
-    scanf(" %d", &choice);
-
-    switch(choice)
-    {
-        case 1:
-        { //formes de bases
             // A VOIR
-            SecondChoice_Submenu_Two('b');
+            ThirdChoice_Submenu_Two('b',tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
             break;
         }
         case 2 :
         { // formes fléchies
             // A VOIR
-            SecondChoice_Submenu_Two('f');
+            ThirdChoice_Submenu_Two('f',tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
             break;
         }
         case 3:
         { // going back to menu
-            starter_menu();
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
         default:
         {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
-void SecondChoice_Submenu_Two(char type)
+void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
 {
     /*
 
      */
     int submenu_choice;
-    printf("Quel est le type de votre mot\n"
-           "ATTENTION: Si vous ne connaissez pas le type de votre mot, cherchez sur internet.\n"
-           "1. Entrer 1 pour verbes\n"
-           "2. Entrer 2 pour adjectifs\n"
-           "3. Entrer 3 pour adverbes\n"
-           "4. Entrer 4 pour noms\n"
-           "5. Entrer 5 pour revenir au menu de depart\n>>>");
+    printf("From which model do you want the sentences to be generated ?\n"
+           "1. Enter 1 for the model : noun : adjective : verb : noun\n"
+           "2. Enter 2 for the model : noun : ‘qui’ : verb : verb : noun : adjective\n"
+           "3. Enter 3 for the model : noun : verb : adjective : noun\n"
+           "4. Enter 4 to go back to the starter menu\n>>>");
     scanf(" %d", &submenu_choice);
 
     switch (submenu_choice)
     {
         case 1 :
-        { // On cherche un mot aléatoire dans l'arbre des verbes
-
-            starter_menu();
+        { // MODELE 1
+            if(type == 'f')// Model with nformes flechies
+            {
+                // A VOIR
+            }
+            else // Model with formes de bases
+            {
+                // A VOIR
+            }
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
         case 2:
-        { // On cherche un mot aléatoire dans l'arbre des adjectifs
-            starter_menu();
+        { // MODELE 2
+            if(type == 'f')// Model with nformes flechies
+            {
+                // A VOIR
+            }
+            else // Model with formes de bases
+            {
+                // A VOIR
+            }
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
         case 3:
-        { // On cherche un mot aléatoire dans l'arbre des adverbes
-            starter_menu();
+        { // MODELE 3
+            if(type == 'f')// Model with nformes flechies
+            {
+                // A VOIR
+            }
+            else // Model with formes de bases
+            {
+                // A VOIR
+            }
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
         case 4 :
-        { // On cherche un mot aléatoire dans l'arbre des noms
-            starter_menu();
-        }
-        case 5 :
-        { // Retourner au menu de départ
-            starter_menu();
+        { // go back to the starter menu
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
         default :
         {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
-        }
-
-    }
-}
-
-void ThirdChoice_Submenu_One(){
-    /*
-     *
-     */
-    int choice;
-    printf("Voulez vous chercher generer les phrases avec des mots a partir leurs formes de bases ou leurs mots flechies ?\n"
-           "1. Entrer 1 pour formes de bases\n"
-           "2. Entrer 2 pour formes flechies\n"
-           "3. Entrer 3 pour revenir sur le menu de depart\n>>>");
-    scanf(" %d", &choice);
-
-    char mot[30];
-    switch(choice)
-    {
-        case 1:
-        { //formes de bases
-            // A VOIR
-            ThirdChoice_Submenu_Two('b');
-            break;
-        }
-        case 2 :
-        { // formes fléchies
-            // A VOIR
-            ThirdChoice_Submenu_Two('f');
-            break;
-        }
-        case 3:
-        { // going back to menu
-            starter_menu();
-        }
-        default:
-        {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
-        }
-    }
-}
-
-void ThirdChoice_Submenu_Two(char type)
-{
-    /*
-
-     */
-    int submenu_choice;
-    printf("A partir de quel modele voulez-vous que les phrases soient generees ?\n"
-           "1. Entrer 1 pour le modele : nom : adjectif : verbe : nom\n"
-           "2. Entrer 2 pour le modele : nom : ‘qui’ : verbe : verbe : nom : adjectif\n"
-           "3. Entrer 3 pour le modele : nom : verbe : adjectif : nom\n"
-           "4. Entrer 4 pour revenir au menu de depart\n>>>");
-    scanf(" %d", &submenu_choice);
-
-    switch (submenu_choice)
-    {
-        case 1 :
-        { // On cherche un mot aléatoire dans l'arbre des verbes
-
-            starter_menu();
-        }
-        case 2:
-        { // On cherche un mot aléatoire dans l'arbre des adjectifs
-            starter_menu();
-        }
-        case 3:
-        { // On cherche un mot aléatoire dans l'arbre des adverbes
-            starter_menu();
-        }
-        case 4 :
-        { // Retourner au menu de départ
-            starter_menu();
-        }
-        default :
-        {
-            printf("Le choix selectionne n'est pas propose.\n");
-            starter_menu();
+            printf("The selected choice is not proposed.\n");
+            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
         }
 
     }

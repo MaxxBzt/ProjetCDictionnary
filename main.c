@@ -9,7 +9,9 @@
 
 int main()
 {
-    //starter_menu();
+    p_tree verbe_arbre = createTree('/');
+    init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
+    starter_menu(verbe_arbre,NULL,NULL,NULL,NULL);
 
     /*
     p_node test;
@@ -32,6 +34,8 @@ int main()
         }
     }*/
 
+
+    /*
     // Series of test for the display tree function
 
     p_tree verbe_arbre = createTree('/');
@@ -49,7 +53,7 @@ int main()
     if (findIfLetterInList(un,'d')!=NULL){
         printf("%c\n",findIfLetterInList(un,'d')->letter);
     }
-     */
+
 
 
     init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
@@ -59,7 +63,7 @@ int main()
     // Search word in verbe_arbre
     char word[20] = "avoir";
     int test = isWordInTree(word, verbe_arbre);
-    printf("is word in tree verbe: %d\n",test);
+    printf("is word in tree verbe: %d\n",test);*/
 
     return 0;
 }

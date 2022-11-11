@@ -36,6 +36,7 @@ typedef struct s_node
 typedef struct s_tree
 {
  p_node root;
+ char* type;
 } t_tree, *p_tree;
 
 /*-------------- STRUCTURES RELATED TO LIST OF WORDS IN THE DICTIONARY FILE --------------*/

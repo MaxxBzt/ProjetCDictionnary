@@ -220,28 +220,34 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
         undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
             addToTree(cell,tree_ver);
-            printf("%s\n",cell->base_word);
+            tree_ver->type = cell->type;
+            //printf("%s\n",cell->base_word);
             undefined = 0;
         }
         /* if (strcmp(temp_line->type,"Pre")==0){
             addToTree(temp_line->base_word,tree_pre);
+            tree_pre->type = cell->type;
             undefined = 0;
         }
         if (strcmp(cell->type,"Adj")==0){
             addToTree(cell,tree_adj);
+            tree_adj->type = cell->type;
             undefined = 0;
         }
         if (strcmp(temp_line->type,"Adv")==0){
             addToTree(temp_line->base_word,tree_adv);
+            tree_adv->type = cell->type;
             undefined = 0;
         }
         if (strcmp(temp_line->type,"Nom")==0){
             addToTree(temp_line->base_word,tree_nom);
+            tree_nom->type = cell->type;
             undefined = 0;
         }*/
+        /*
         if (undefined==1){
             printf("%s type of word is not handled by our software \n",cell->type);
-        }
+        }*/
 
 
 
