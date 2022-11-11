@@ -9,7 +9,7 @@
 
 int main()
 {
-    starter_menu();
+    //starter_menu();
 
     /*
     p_node test;
@@ -30,15 +30,36 @@ int main()
             printf("%s %s %s %s",temp->type,temp->forme_flechie,temp->base_word,temp->declinaison);
             temp = temp->next;
         }
-    }
+    }*/
 
     // Series of test for the display tree function
 
-    p_tree pouet = createTree('/');
+    p_tree verbe_arbre = createTree('/');
 
-    init_trees(pouet, pouet, pouet, pouet, pouet, &dictionary_list);
+    p_node un = createNode('a');
+    p_node deux = createNode('b');
+    p_node trois = createNode('c');
+    p_node quatre = createNode('d');
 
-    displayNodeChild(pouet->root);*/
+    un->next = deux;
+    deux->next = trois;
+    trois->next = quatre;
+
+    /*
+    if (findIfLetterInList(un,'d')!=NULL){
+        printf("%c\n",findIfLetterInList(un,'d')->letter);
+    }
+     */
+
+
+    init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
+
+    displayNodeChild(verbe_arbre->root);
+
+    // Search word in verbe_arbre
+    char word[20] = "avoir";
+    int test = isWordInTree(word, verbe_arbre);
+    printf("is word in tree verbe: %d\n",test);
 
     return 0;
 }
