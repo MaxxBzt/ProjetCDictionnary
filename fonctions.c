@@ -28,8 +28,7 @@ char** split_a_string(char* string, char separator, int *len_string)
     // Nouveau tableau où chaque élement est une sous-liste de la liste (string)
     char **tableau = NULL;
     // 3 puisque nous avons 3 catégories à ranger dans ce tableau (3 colonnes du fichier)
-    int nbr = 3;
-    tableau = malloc( sizeof(char*) * nbr);
+    tableau = malloc( sizeof(char*) * 3);
     int idx = 0;
 
     // On compte le nombre de charactère dans le string
@@ -40,8 +39,9 @@ char** split_a_string(char* string, char separator, int *len_string)
     }
 
     // allouer une taille à chaque case du tableau
-    for (int i=0; i<nbr;i++) {
-        tableau[i] = malloc(sizeof(char)* (*len_string));
+    idx = 0;
+    for (idx; idx<3;idx++) {
+        tableau[idx] = malloc(sizeof(char)* (*len_string));
     }
 
     // On compte le nombre de separateur (dans le projet TAB) dans le string
@@ -58,44 +58,25 @@ char** split_a_string(char* string, char separator, int *len_string)
     char * current_col = strtok(string,&separator);
     // Sprintf = print dans une variable. Au lieu de printer, ca store le print dans une variable
     idx = 0;
-    for(int i=0; i < counter_separator ; i++)
+    for(idx; idx < counter_separator ; idx++)
     {
         sprintf(tableau[idx],"%s",current_col);
         current_col = strtok(NULL,&separator); // Coupe tout le temps pour chaque separeteur
-        idx ++;
     }
+
+    free(current_col);
 
     return tableau;
 
 }
 
-
-
-p_node searchNextNode(p_node start_node, char letter){
-    p_node temp_node = start_node;
-
-    if (temp_node->letter == letter){
-        return temp_node;
-    }
-    if (temp_node->next != NULL){
-        temp_node = temp_node->next;
-        searchNextNode(temp_node, letter);
-    }
-    else{
-        temp_node->next = createNode(letter);
-        return temp_node->next;
-    }
-}
-
 p_node findIfLetterInList(p_node node,char letter){
-    p_node temp = NULL;
     if (node->letter == letter){
         return node;
     }
     if (node->next==NULL){
-        temp = createNode(letter);
-        node->next = temp;
-        return temp;
+        node->next = createNode(letter);
+        return node->next;
     }
     else{
         return findIfLetterInList(node->next, letter);
@@ -140,7 +121,7 @@ int isWordInTree(char* word, p_tree tree){
 }
 
 
-void createNodeInTree(p_node node,char* word){
+p_node createNodeInTree(p_node node,char* word){
     int index = 0;
     p_node search = node ;
     if (node->letter=='/'){
@@ -167,56 +148,27 @@ void createNodeInTree(p_node node,char* word){
             }
         }
 
-
         index++;
     }
+    return search;
 }
 
-
-
-
-
-
-
-
-
-/* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
-p_node findIntersection(p_node start_node, char* word, int* index){
-    p_node temp_node ;
-    temp_node = start_node;
-
-    if ( word[*index] != '\0'){
-
-        temp_node = searchNextNode(temp_node, word[*index]);
-        *index = *index + 1;
-
-        if (temp_node->child != NULL){
-            temp_node = findIntersection(temp_node->child, word, index);
-        }
-        else{
-            return temp_node;
-        }
-    }
-    return temp_node;
-}
 
 void addToTree(p_dictionarycell temp_line, p_tree word_tree){
 
     p_flechieslist newFlechiesList, tempFlechiesList;
     p_flechiescell newFlechhieCell, tempFlechieCell;
-    char* base_word = temp_line->base_word;
     p_node temp_node;
-    int idx_char = 0, stop=0;
+    int stop=0;
 
-    createNodeInTree(word_tree->root, temp_line->base_word);
-
-    /*
+    temp_node = createNodeInTree(word_tree->root, temp_line->base_word);
 
     if (temp_node->formes_flechies==NULL){
-        // If there is no forme flechies yet we create the list and assign the first word
-        newFlechhieCell = createFlechieCell(temp_line->forme_flechie,temp_line->declinaison);
-        newFlechiesList = createFlechiesList(temp_line->base_word,newFlechhieCell);
+        // If there is no forme flechies yet, we create the list and assign the first word
+        newFlechhieCell = createFlechieCell( temp_line->forme_flechie, temp_line->declinaison );
+        newFlechiesList = createFlechiesList( temp_line->base_word, newFlechhieCell );
         temp_node->formes_flechies = newFlechiesList;
+
     }
     else{
         // If there is already a list of forme flechies
@@ -225,7 +177,7 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
         while ( tempFlechieCell->next != NULL ){
             // We go to the end of the list to add the new flechie word
             if (tempFlechieCell->flechie_word==temp_line->forme_flechie && tempFlechieCell->declinaison==temp_line->declinaison ){
-                // If the forme fléchie exists already we dont add it
+                // If the forme fléchie exists already we don't add it
                 stop=1;
                 break;
             }
@@ -240,8 +192,12 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
         }
 
     }
-     */
 
+    newFlechhieCell = NULL;
+    newFlechiesList = NULL;
+    tempFlechieCell = NULL;
+    tempFlechiesList = NULL;
+    temp_node = NULL;
     return;
 }
 
@@ -263,6 +219,7 @@ void displayNodeChild(p_node node){
             displayNodeChild(temp->next);
         }
     }
+    temp = NULL;
     return;
 
 }
@@ -278,7 +235,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
     char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
     int nbr_of_types = 5;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\GitHub\\ProjetCDictionnarytest\\dictionnaire_non_accentue.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -294,32 +251,34 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
                 cell->type = types[i];
                 break;
             }
+            else{
+                cell->type = "/";
+            }
         }
         undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
             addToTree(cell,tree_ver);
-            printf("%s\n",cell->base_word);
             undefined = 0;
         }
-        /* if (strcmp(temp_line->type,"Pre")==0){
-            addToTree(temp_line->base_word,tree_pre);
+        if (strcmp(cell->type,"Pre")==0){
+            addToTree(cell,tree_pre);
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Adj")==0){
-            addToTree(temp_line->base_word,tree_adj);
+        if (strcmp(cell->type,"Adj")==0){
+            addToTree(cell,tree_adj);
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Adv")==0){
-            addToTree(temp_line->base_word,tree_adv);
+        if (strcmp(cell->type,"Adv")==0){
+            addToTree(cell,tree_adv);
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Nom")==0){
-            addToTree(temp_line->base_word,tree_nom);
+        if (strcmp(cell->type,"Nom")==0){
+            addToTree(cell,tree_nom);
             undefined = 0;
-        }*/
-        if (undefined==1){
+        }
+        /*if (undefined==1){
             printf("%s type of word is not handled by our software \n",cell->type);
-        }
+        }*/
 
 
 
