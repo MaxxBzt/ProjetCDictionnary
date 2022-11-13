@@ -5,7 +5,6 @@
 #include "menus.h"
 
 void starter_menu(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
-    int option = 0;
     printf("-------------------------------------------------\n");
     printf("-                 MENU                          -\n");
     printf("-------------------------------------------------\n");
@@ -17,8 +16,9 @@ void starter_menu(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_no
     printf("-------------------------------------------------\n");
 
     printf(">>");
-    scanf(" %d", &option);
 
+    int option;
+    option = secure_input_int();
     switch(option){
         case 0:
         {
@@ -57,7 +57,7 @@ void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_t
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
            "5. Enter 5 to go back to the starter menu\n>>>");
-    scanf(" %d", &submenu_choice);
+    submenu_choice = secure_input_int();
 
     switch (submenu_choice)
     {
@@ -104,7 +104,7 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
            "3. Enter 3 to go back to the starter menu\n>>>");
-    scanf(" %d", &choice);
+    choice = secure_input_int();
 
     char mot[30];
     int isWordIntree;
@@ -151,7 +151,7 @@ void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
            "5. Enter 5 to go back to the starter menu\n>>>");
-    scanf(" %d", &submenu_choice);
+    submenu_choice = secure_input_int();
 
     switch (submenu_choice)
     {
@@ -197,7 +197,7 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
            "3. Enter 3 to go back to the starter menu\n>>>");
-    scanf(" %d", &choice);
+    choice = secure_input_int();
 
     char *random_word;
     switch(choice)
@@ -206,6 +206,7 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
         { //formes de bases
             random_word = Extract_random_word_from_tree(current_tree);
             printf("The randomly selected word is %s. Its type is : %s\n",random_word,current_tree->type);
+
             break;
         }
         case 2 :
@@ -235,9 +236,8 @@ void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_t
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
            "3. Enter 3 to go back to the starter menu\n>>>");
-    scanf(" %d", &choice);
+    choice = secure_input_int();
 
-    char mot[30];
     switch(choice)
     {
         case 1:
@@ -272,10 +272,10 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
     int submenu_choice;
     printf("From which model do you want the sentences to be generated ?\n"
            "1. Enter 1 for the model : noun : adjective : verb : noun\n"
-           "2. Enter 2 for the model : noun : ‘qui’ : verb : verb : noun : adjective\n"
+           "2. Enter 2 for the model : noun : qui : verb : verb : noun : adjective\n"
            "3. Enter 3 for the model : noun : verb : adjective : noun\n"
            "4. Enter 4 to go back to the starter menu\n>>>");
-    scanf(" %d", &submenu_choice);
+    submenu_choice = secure_input_int();
 
     switch (submenu_choice)
     {

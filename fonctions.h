@@ -25,5 +25,7 @@ int isWordInTree(char *word, p_tree);
 char* Extract_random_word_from_tree( p_tree tree);
 int countNumberOfNextOfANode(p_node node);
 
+int secure_input_int();
+
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

@@ -6,7 +6,6 @@
 #define PROJETCDICTIONNARY_MENUS_H
 
 #include <stdio.h>
-#include "structures.h"
 #include "fonctions.h"
 
 void starter_menu(p_tree,p_tree,p_tree,p_tree);

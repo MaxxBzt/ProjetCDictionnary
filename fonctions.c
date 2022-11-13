@@ -367,11 +367,11 @@ char* Extract_random_word_from_tree(p_tree tree)
 
     // We store that first letter in the list
     word[idx] = temp->letter;
+    printf("%c\n",word[idx]);
     idx++;
 
     while(b)
     {
-
         // We go to the first child of the current parent
         temp = temp->child;
 
@@ -390,6 +390,7 @@ char* Extract_random_word_from_tree(p_tree tree)
         word = realloc(word,strlen(word)+2);
 
         word[idx] = temp->letter;
+        printf("%c\n",word[idx]);
         idx++;
 
         // One chance out of two to stop when we come to a word
@@ -399,7 +400,8 @@ char* Extract_random_word_from_tree(p_tree tree)
         if(temp->child == NULL)
             b = 0;
     }
-
+    word = realloc(word,strlen(word)+2);
+    word[idx] = '\0';
     return word;
 
 }
@@ -490,5 +492,18 @@ t_dictionarylist Split_dictionary_in_linked_list()
     return dictionary_list;
 }
 
-
+int secure_input_int()
+{
+    int option = 1;
+    int choice_read = 0;
+    choice_read = scanf(" %d", &option);
+    while(choice_read != 1)
+    {
+        printf("Input not a number.\n");
+        scanf("%*[^\n]");
+        printf("Enter a proper number, which is among the proposed ones.\n>>>");
+        choice_read = scanf(" %d", &option);
+    }
+    return option;
+}
 
