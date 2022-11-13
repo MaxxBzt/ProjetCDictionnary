@@ -140,13 +140,13 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
 
 
-    char line_of_the_dictionary_file[500];
+    char line_of_the_dictionary_file[100];
     char **array_of_sub_lines;
     int nb_of_characters_in_a_line = 0 ;
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -283,15 +283,10 @@ int isWordInTree(char* word, p_tree tree){
 
     int idx = 0;
     p_node temp;
-    p_node current_parent;
+    p_node current_parent = tree->root;
     while(word[idx] != '\0')
     {
-        // If index = 0, we are in the first letter of the word so temp takes the value of the root
-        if(idx == 0)
-            temp = tree->root;
-        // If index != 0, we are dealing with the other letters of the word, who are children
-        else
-            temp = current_parent->child;
+        temp = current_parent->child;
         // We check if among the letters that temp(letter) can be, we have the letter in word[idx].
         while(word[idx] != temp->letter)
         {
@@ -336,23 +331,6 @@ char* Extract_random_word_from_tree(p_tree tree)
     int count;
     int b = 1;
 
-    // We count the number of next that our root has
-    count = countNumberOfNextOfANode(temp);
-    // We choose which random letter will be our first letter
-    random = rand()%count;
-
-
-    // We go through the first level of the tree to find our first letter choosen by the random
-    for(int i = 0; i < random; i++)
-    {
-        temp= temp->next;
-    }
-
-    // We store that first letter in the list
-    word[idx] = temp->letter;
-    printf("%c\n",word[idx]);
-    idx++;
-
     while(b)
     {
         // We go to the first child of the current parent
@@ -373,7 +351,6 @@ char* Extract_random_word_from_tree(p_tree tree)
         word = realloc(word,strlen(word)+2);
 
         word[idx] = temp->letter;
-        printf("%c\n",word[idx]);
         idx++;
 
         // One chance out of two to stop when we come to a word
@@ -387,50 +364,6 @@ char* Extract_random_word_from_tree(p_tree tree)
     word[idx] = '\0';
     return word;
 
-}
-
-
-// Fonction servant à découper les lignes du dictionnaire_non_accentue.txt et à conserver les données dans une structure
-t_dictionarylist Split_dictionary_in_linked_list()
-{
-
-    // ON INITIALIZE DES VARIABLES
-    t_dictionarylist dictionary_list;
-    p_dictionarycell current_cell;
-    char line_of_the_dictionary_file[500];
-    char **array_of_sub_lines;
-    int nb_of_characters_in_a_line = 0 ;
-    int is_it_first_node_of_the_list = 0;
-    char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
-    int nbr_of_types = 5;
-
-
-    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
-
-    // Boucle nous permettant de lire chaque ligne du fichier ci-dessus
-
-    while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
-    {
-        p_dictionarycell cell;
-
-        array_of_sub_lines = split_a_string(line_of_the_dictionary_file, '\t', &nb_of_characters_in_a_line);
-
-        cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
-
-        for(int i = 0; i < nbr_of_types ;i++)
-        {
-            if(isSubstringInString(array_of_sub_lines[2], types[i]) == 1)
-            {
-                cell->type = types[i];
-
-                break;
-            }
-        }
-    }
-
-    fclose(dictionary_file);
-
-    return dictionary_list;
 }
 
 int secure_input_int()

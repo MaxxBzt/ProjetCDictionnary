@@ -15,7 +15,7 @@ int main()
     p_tree nom_arbre = createTree('0');
     init_trees(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
     srand(time(NULL));
-    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
+    starter_menu(verbe_arbre, NULL, NULL, NULL);
 
     /*
     p_node test;
