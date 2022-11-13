@@ -9,12 +9,13 @@
 
 int main()
 {
-    p_tree verbe_arbre = createTree('/');
-    p_tree adj_arbre = createTree('/');
-    p_tree nom_arbre = createTree('/');
-    init_trees(verbe_arbre, adj_arbre, NULL, nom_arbre);
+    p_tree verbe_arbre = createTree('0');
+    p_tree adj_arbre = createTree('0');
+    p_tree adv_arbre = createTree('0');
+    p_tree nom_arbre = createTree('0');
+    init_trees(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
     srand(time(NULL));
-    starter_menu(verbe_arbre, adj_arbre, NULL, nom_arbre);
+    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
 
     /*
     p_node test;

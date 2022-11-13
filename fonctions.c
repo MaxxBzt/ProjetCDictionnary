@@ -28,8 +28,7 @@ char** split_a_string(char* string, char separator, int *len_string)
     // New list where each element is a sub-list of the string
     char **list = NULL;
     // 3 because we have 3 categories to store in the previous list (3 columns in the file)
-    int nbr = 3;
-    list = malloc( sizeof(char*) * nbr);
+    list = malloc( sizeof(char*) * 3);
     int idx = 0;
 
     // We count the numbers of characters in the string
@@ -40,7 +39,7 @@ char** split_a_string(char* string, char separator, int *len_string)
     }
 
     // We allocate a size to each case of the list
-    for (int i=0; i<nbr;i++) {
+    for (int i=0; i<3;i++) {
         list[i] = malloc(sizeof(char)* (*len_string));
     }
 
@@ -71,73 +70,20 @@ char** split_a_string(char* string, char separator, int *len_string)
 }
 
 
-
-
-p_node searchNextNode(p_node start_node, char letter){
-    p_node temp_node = start_node;
-
-    if (temp_node->letter == letter){
-        return temp_node;
-    }
-    if (temp_node->next != NULL){
-        temp_node = temp_node->next;
-        searchNextNode(temp_node, letter);
-    }
-    else{
-        temp_node->next = createNode(letter);
-        return temp_node->next;
-    }
-}
-
-/* fonction utilisée pour trouver le dernier node a qui il faut créer un enfant pour rajouter la lettre qui suit. */
-/* Function used to find the last node, to which needs to have a child created, so that we can add the following letter*/
-p_node findIntersection(p_node start_node, char* word, int* index){
-    p_node temp_node ;
-    temp_node = start_node;
-
-    if ( word[*index] != '\0'){
-
-        temp_node = searchNextNode(temp_node, word[*index]);
-        *index = *index + 1;
-
-        if (temp_node->child != NULL){
-            temp_node = findIntersection(temp_node->child, word, index);
-        }
-        else{
-            return temp_node;
-        }
-    }
-    return temp_node;
-}
-
 /* Function which add a string in the tree */
 void addToTree(p_dictionarycell temp_line, p_tree word_tree){
 
     p_flechieslist newFlechiesList, tempFlechiesList;
     p_flechiescell newFlechhieCell, tempFlechieCell;
-    char* base_word = temp_line->base_word;
     p_node temp_node;
-    int idx_char = 0, stop=0;
+    int stop=0;
 
-    if (word_tree->root->letter == '/'){
-        word_tree->root->letter = base_word[0];
-    }
-    /* else {
-        searchNextNode(word_tree->root, base_word[0]);
-    }*/
-
-    temp_node = findIntersection(word_tree->root, base_word, &idx_char);
-    while ( base_word[idx_char] != '\0'){
-
-        temp_node->child = createNode(base_word[idx_char]);
-        idx_char++;
-        temp_node = temp_node->child;
-    }
+    temp_node = createNodeInTree(word_tree->root, temp_line->base_word);
 
     if (temp_node->formes_flechies==NULL){
         // If there is no forme flechies yet, we create the list and assign the first word
-        newFlechhieCell = createFlechieCell(temp_line->forme_flechie,temp_line->declinaison);
-        newFlechiesList = createFlechiesList(temp_line->base_word,newFlechhieCell);
+        newFlechhieCell = createFlechieCell( temp_line->forme_flechie, temp_line->declinaison );
+        newFlechiesList = createFlechiesList( temp_line->base_word, newFlechhieCell );
         temp_node->formes_flechies = newFlechiesList;
     }
     else{
@@ -146,14 +92,14 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
         tempFlechieCell = tempFlechiesList->head;
         while ( tempFlechieCell->next != NULL ){
             // We go to the end of the list to add the new flechie word
-            if (tempFlechieCell->flechie_word==temp_line->forme_flechie && tempFlechieCell->declinaison==temp_line->declinaison ){
+            if (tempFlechieCell->flechie_word == temp_line->forme_flechie && tempFlechieCell->declinaison == temp_line->declinaison ){
                 // If the forme fléchie exists already we don't add it
-                stop=1;
+                stop = 1;
                 break;
             }
-            tempFlechieCell=tempFlechieCell->next;
+            tempFlechieCell = tempFlechieCell->next;
         }
-        if (stop==0)
+        if (stop == 0)
         {
             // If the forme flechie doesn't exist then we add the new one
             newFlechhieCell = createFlechieCell(temp_line->forme_flechie, temp_line->declinaison);
@@ -162,7 +108,7 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
         }
 
     }
-
+    return;
 }
 
 /* Function to display the child or next of a node */
@@ -197,10 +143,10 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     char line_of_the_dictionary_file[500];
     char **array_of_sub_lines;
     int nb_of_characters_in_a_line = 0 ;
-    char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
-    int nbr_of_types = 5;
+    char *types[] = {"Ver","Adj", "Adv", "Nom"};
+    int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -215,6 +161,9 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
             {
                 cell->type = types[i];
                 break;
+            }
+            else{
+                cell->type = "/";
             }
         }
         undefined = 1;
@@ -294,6 +243,40 @@ p_node findIfLetterInList(p_node node,char letter){
     }
 }
 
+p_node createNodeInTree(p_node node,char* word){
+    int index = 0;
+    p_node search = NULL;
+    if (node->letter=='0'){
+        node->letter = '/';
+        node->child = createNode(word[index]);
+    }
+    search = node->child;
+
+    while (word[index+1]!='\0'){
+        if (search->letter == word[index]){
+            if (search->child == NULL){
+                search->child = createNode(word[index+1]);
+                search = search->child;
+            }
+            else{
+                search = search->child;
+            }
+        }
+        else{
+            search = findIfLetterInList(search, word[index]);
+            if (search->child == NULL){
+                search->child = createNode(word[index+1]);
+                search = search->child;
+            }
+            else{
+                search = search->child;
+            }
+        }
+
+        index++;
+    }
+    return search;
+}
 
 /* Function which checks if a word is in a tree */
 int isWordInTree(char* word, p_tree tree){
@@ -443,49 +426,7 @@ t_dictionarylist Split_dictionary_in_linked_list()
                 break;
             }
         }
-
-        /*
-        // On s'occupe d'abord de ranger la première ligne en tant que Head de la liste
-        if (is_it_first_node_of_the_list == 0)
-        {
-            // On range les informations découpées de la ligne dans une structure
-            current_cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
-
-            // Maintenant nous conservons le type de la ligne (si c'est un verbe etc..) dans la structure
-            for(int i = 0; i < nbr_of_types ;i++)
-            {
-                if(Search_string_in_string(array_of_sub_lines[2], types[i]) == 1)
-                {
-                    current_cell->type = types[i];
-                    break;
-                }
-            }
-            dictionary_list.head = current_cell;
-            is_it_first_node_of_the_list++;
-        }
-        // On s'occupe désormais des autres lignes du fichier
-        else
-        {
-            cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
-
-            for(int i = 0; i < nbr_of_types ;i++)
-            {
-                if(Search_string_in_string(array_of_sub_lines[2], types[i]) == 1)
-                {
-                    cell->type = types[i];
-
-                    break;
-                }
-            }
-            current_cell->next = cell;
-            current_cell = cell;
-        }
-        */
-
-
     }
-
-
 
     fclose(dictionary_file);
 
