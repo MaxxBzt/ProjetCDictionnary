@@ -40,8 +40,8 @@ char** split_a_string(char* string, char separator, int *len_string)
 
     // allouer une taille à chaque case du tableau
     idx = 0;
-    for (idx; idx<3;idx++) {
-        tableau[idx] = malloc(sizeof(char)* (*len_string));
+    for (int i = 0; i<3;i++) {
+        tableau[i] = malloc(sizeof(char)* (*len_string));
     }
 
     // On compte le nombre de separateur (dans le projet TAB) dans le string
@@ -58,25 +58,26 @@ char** split_a_string(char* string, char separator, int *len_string)
     char * current_col = strtok(string,&separator);
     // Sprintf = print dans une variable. Au lieu de printer, ca store le print dans une variable
     idx = 0;
-    for(idx; idx < counter_separator ; idx++)
+    for(int i = 0; i < counter_separator ; i++)
     {
         sprintf(tableau[idx],"%s",current_col);
         current_col = strtok(NULL,&separator); // Coupe tout le temps pour chaque separeteur
+        idx++;
     }
-
-    free(current_col);
 
     return tableau;
 
 }
 
 p_node findIfLetterInList(p_node node,char letter){
+    p_node temp = NULL;
     if (node->letter == letter){
         return node;
     }
     if (node->next==NULL){
-        node->next = createNode(letter);
-        return node->next;
+        temp = createNode(letter);
+        node->next = temp;
+        return temp;
     }
     else{
         return findIfLetterInList(node->next, letter);
@@ -193,11 +194,6 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
 
     }
 
-    newFlechhieCell = NULL;
-    newFlechiesList = NULL;
-    tempFlechieCell = NULL;
-    tempFlechiesList = NULL;
-    temp_node = NULL;
     return;
 }
 
@@ -219,7 +215,6 @@ void displayNodeChild(p_node node){
             displayNodeChild(temp->next);
         }
     }
-    temp = NULL;
     return;
 
 }
@@ -235,7 +230,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
     char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
     int nbr_of_types = 5;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\GitHub\\ProjetCDictionnarytest\\dictionnaire_non_accentue.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\GitHub\\ProjetCDictionnarytest\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
