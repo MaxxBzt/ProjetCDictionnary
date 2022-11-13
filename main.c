@@ -33,11 +33,11 @@ int main()
 
     // Series of test for the display tree function
 
-    p_tree verbe_arbre = createTree('/');
-    p_tree adj_arbre = createTree('/');
-    p_tree adv_arbre = createTree('/');
-    p_tree pre_arbre = createTree('/');
-    p_tree nom_arbre = createTree('/');
+    p_tree verbe_arbre = createTree('0');
+    p_tree adj_arbre = createTree('0');
+    p_tree adv_arbre = createTree('0');
+    p_tree pre_arbre = createTree('0');
+    p_tree nom_arbre = createTree('0');
 
     /*
     p_node un = createNode('a');

@@ -124,10 +124,13 @@ int isWordInTree(char* word, p_tree tree){
 
 p_node createNodeInTree(p_node node,char* word){
     int index = 0;
-    p_node search = node ;
-    if (node->letter=='/'){
-        node->letter = word[index];
+    p_node search = NULL;
+    if (node->letter=='0'){
+        node->letter = '/';
+        node->child = createNode(word[index]);
     }
+    search = node->child;
+
     while (word[index+1]!='\0'){
         if (search->letter == word[index]){
             if (search->child == NULL){
