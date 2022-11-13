@@ -189,7 +189,7 @@ void displayNodeChild(p_node node){
 }
 
 /* Function which initializes every tree (per type) */
-void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     int undefined;
     //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
 
@@ -200,7 +200,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
     char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
     int nbr_of_types = 5;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -224,26 +224,23 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
             //printf("%s\n",cell->base_word);
             undefined = 0;
         }
-        /* if (strcmp(temp_line->type,"Pre")==0){
-            addToTree(temp_line->base_word,tree_pre);
-            tree_pre->type = cell->type;
-            undefined = 0;
-        }
+
         if (strcmp(cell->type,"Adj")==0){
             addToTree(cell,tree_adj);
             tree_adj->type = cell->type;
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Adv")==0){
-            addToTree(temp_line->base_word,tree_adv);
+        if (strcmp(cell->type,"Adv")==0){
+            addToTree(cell,tree_adv);
             tree_adv->type = cell->type;
             undefined = 0;
         }
-        if (strcmp(temp_line->type,"Nom")==0){
-            addToTree(temp_line->base_word,tree_nom);
+        if (strcmp(cell->type,"Nom")==0){
+            addToTree(cell,tree_nom);
             tree_nom->type = cell->type;
             undefined = 0;
-        }*/
+        }
+        free(cell);
         /*
         if (undefined==1){
             printf("%s type of word is not handled by our software \n",cell->type);
@@ -261,10 +258,7 @@ void init_trees(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,
             printf("%s\n",temp_line->base_word);
             undefined = 0;
         }
-        /* if (strcmp(temp_line->type,"Pre")==0){
-            addToTree(temp_line->base_word,tree_pre);
-            undefined = 0;
-        }
+        /*
         if (strcmp(temp_line->type,"Adj")==0){
             addToTree(temp_line->base_word,tree_adj);
             undefined = 0;
@@ -335,6 +329,82 @@ int isWordInTree(char* word, p_tree tree){
 
 }
 
+int countNumberOfNextOfANode(p_node node)
+{
+    int count = 0;
+    p_node temp = node;
+    while(temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+/* Function which checks if a word is in a tree */
+char* Extract_random_word_from_tree(p_tree tree)
+{
+
+    int idx = 0;
+    // We create a list that will contain the letters of the randomly selected word
+    char *word = malloc( sizeof(char*));
+    int random;
+    p_node temp = tree->root;
+    int count;
+    int b = 1;
+
+    // We count the number of next that our root has
+    count = countNumberOfNextOfANode(temp);
+    // We choose which random letter will be our first letter
+    random = rand()%count;
+
+
+    // We go through the first level of the tree to find our first letter choosen by the random
+    for(int i = 0; i < random; i++)
+    {
+        temp= temp->next;
+    }
+
+    // We store that first letter in the list
+    word[idx] = temp->letter;
+    idx++;
+
+    while(b)
+    {
+
+        // We go to the first child of the current parent
+        temp = temp->child;
+
+        // We count the number of next of the current child
+        count = countNumberOfNextOfANode(temp);
+        random = rand()%count;
+
+
+        // After finding which letter will be our next letter, we go store it in temp
+        for(int i = 0; i < random; i++)
+        {
+            temp = temp->next;
+        }
+
+        // We increase the size of our list. +1 to remove '/0' and +1 to add a space
+        word = realloc(word,strlen(word)+2);
+
+        word[idx] = temp->letter;
+        idx++;
+
+        // One chance out of two to stop when we come to a word
+        if(temp->formes_flechies != NULL)
+            b = rand()%2;
+        // peut pas aller plus loin
+        if(temp->child == NULL)
+            b = 0;
+    }
+
+    return word;
+
+}
+
+
 // Fonction servant à découper les lignes du dictionnaire_non_accentue.txt et à conserver les données dans une structure
 t_dictionarylist Split_dictionary_in_linked_list()
 {
@@ -350,7 +420,7 @@ t_dictionarylist Split_dictionary_in_linked_list()
     int nbr_of_types = 5;
 
 
-    FILE* dictionary_file = fopen("/Users/max/Library/CloudStorage/OneDrive-Personal/L2/SEM 3/C/ProjetCDictionnary/test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
 
     // Boucle nous permettant de lire chaque ligne du fichier ci-dessus
 

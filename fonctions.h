@@ -18,10 +18,12 @@ p_node searchNextNode(p_node, char);
 void addToTree(p_dictionarycell, p_tree);
 void displayNodeChild(p_node);
 
-void init_trees(p_tree,p_tree,p_tree,p_tree,p_tree);
+void init_trees(p_tree,p_tree,p_tree,p_tree);
 
 p_node findIfLetterInList(p_node ,char );
 int isWordInTree(char *word, p_tree);
+char* Extract_random_word_from_tree( p_tree tree);
+int countNumberOfNextOfANode(p_node node);
 
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

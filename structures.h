@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 /* -------------- STRUCTURES RELATED TO THE LIST OF FORMES FLECHIES OF A NODE -------------- */
 typedef struct flechies_cell

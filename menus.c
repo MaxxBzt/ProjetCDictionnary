@@ -4,7 +4,7 @@
 
 #include "menus.h"
 
-void starter_menu(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void starter_menu(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     int option = 0;
     printf("-------------------------------------------------\n");
     printf("-                 MENU                          -\n");
@@ -26,25 +26,25 @@ void starter_menu(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_ad
         }
         case 1:
         {
-            FirstChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //Search if a word is in a tree
+            FirstChoice_Submenu_One(tree_ver,tree_adj,tree_adv,tree_nom); //Search if a word is in a tree
         }
         case 2:
         {
-            SecondChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //Extract a random word from a tree
+            SecondChoice_Submenu_One(tree_ver,tree_adj,tree_adv,tree_nom); //Extract a random word from a tree
         }
         case 3:
         {
-            ThirdChoice_Submenu_One(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom); //generate random sentences
+            ThirdChoice_Submenu_One(tree_ver,tree_adj,tree_adv,tree_nom); //generate random sentences
         }
         default:
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
-void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
+void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
 {
     /*
 
@@ -56,8 +56,7 @@ void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_t
            "2. Enter 2 for adjectives\n"
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
-           "5. Enter 5 for pre\n"
-           "6. Enter 6 to go back to the starter menu\n>>>");
+           "5. Enter 5 to go back to the starter menu\n>>>");
     scanf(" %d", &submenu_choice);
 
     switch (submenu_choice)
@@ -65,43 +64,38 @@ void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_t
         case 1 :
         { // We search the word in tree of verbs
 
-            FirstChoice_Submenu_Two(tree_ver,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            FirstChoice_Submenu_Two(tree_ver,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 2:
         { // We search the word in tree of adjectives
-            FirstChoice_Submenu_Two(tree_adj,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            FirstChoice_Submenu_Two(tree_adj,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 3:
         { // We search the word in tree of adverbs
-            FirstChoice_Submenu_Two(tree_adv,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            FirstChoice_Submenu_Two(tree_adv,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 4 :
         { // We search the word in tree of nouns
-            FirstChoice_Submenu_Two(tree_nom,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            FirstChoice_Submenu_Two(tree_nom,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 5 :
-        { // We search the word in tree of pre
-            FirstChoice_Submenu_Two(tree_pre,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-        }
-        case 6 :
         { // to go back to the starter menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default :
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
 
     }
 }
 
-void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     /*
      * The function will make the program search if the word entered by the user in the current tree
      */
@@ -134,17 +128,17 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pre
         }
         case 3:
         { // going back to menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default:
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
-void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
+void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
 {
     /*
 
@@ -156,51 +150,45 @@ void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_
            "2. Enter 2 for adjectives\n"
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
-           "5. Enter 5 for pre\n"
-           "6. Enter 6 to go back to the starter menu\n>>>");
+           "5. Enter 5 to go back to the starter menu\n>>>");
     scanf(" %d", &submenu_choice);
 
     switch (submenu_choice)
     {
         case 1 :
         { // We search a random word in the tree of verbs
-            SecondChoice_Submenu_Two(tree_ver,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            SecondChoice_Submenu_Two(tree_ver,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 2:
         { // We search a random word in the tree of adjectives
-            SecondChoice_Submenu_Two(tree_adj,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            SecondChoice_Submenu_Two(tree_adj,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 3:
         { // We search a random word in the tree of adverbs
-            SecondChoice_Submenu_Two(tree_adv,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            SecondChoice_Submenu_Two(tree_adv,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 4 :
         { // We search a random word in the tree of verbs nouns
-            SecondChoice_Submenu_Two(tree_nom,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            SecondChoice_Submenu_Two(tree_nom,tree_ver,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 5 :
-        { // We search a random word in the tree of pre
-            SecondChoice_Submenu_Two(tree_pre,tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
-        }
-        case 6 :
         { // go back to the starter menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default :
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
 
     }
 }
 
-void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     /*
      *
      */
@@ -211,11 +199,13 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pr
            "3. Enter 3 to go back to the starter menu\n>>>");
     scanf(" %d", &choice);
 
+    char *random_word;
     switch(choice)
     {
         case 1:
         { //formes de bases
-            // A VOIR
+            random_word = Extract_random_word_from_tree(current_tree);
+            printf("The randomly selected word is %s. Its type is : %s\n",random_word,current_tree->type);
             break;
         }
         case 2 :
@@ -225,18 +215,18 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_pr
         }
         case 3:
         { // going back to menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default:
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
 
-void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
     /*
      *
      */
@@ -253,28 +243,28 @@ void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_t
         case 1:
         { //formes de bases
             // A VOIR
-            ThirdChoice_Submenu_Two('b',tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            ThirdChoice_Submenu_Two('b',tree_ver,tree_adj,tree_adv,tree_nom);
             break;
         }
         case 2 :
         { // formes fléchies
             // A VOIR
-            ThirdChoice_Submenu_Two('f',tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            ThirdChoice_Submenu_Two('f',tree_ver,tree_adj,tree_adv,tree_nom);
             break;
         }
         case 3:
         { // going back to menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default:
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
     }
 }
 
-void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
+void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
 {
     /*
 
@@ -291,7 +281,7 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tr
     {
         case 1 :
         { // MODELE 1
-            if(type == 'f')// Model with nformes flechies
+            if(type == 'f')// Model with formes flechies
             {
                 // A VOIR
             }
@@ -299,11 +289,11 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tr
             {
                 // A VOIR
             }
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 2:
         { // MODELE 2
-            if(type == 'f')// Model with nformes flechies
+            if(type == 'f')// Model with formes flechies
             {
                 // A VOIR
             }
@@ -311,11 +301,11 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tr
             {
                 // A VOIR
             }
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 3:
         { // MODELE 3
-            if(type == 'f')// Model with nformes flechies
+            if(type == 'f')// Model with formes flechies
             {
                 // A VOIR
             }
@@ -323,16 +313,16 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_pre,p_tree tr
             {
                 // A VOIR
             }
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         case 4 :
         { // go back to the starter menu
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
         default :
         {
             printf("The selected choice is not proposed.\n");
-            starter_menu(tree_ver,tree_pre,tree_adj,tree_adv,tree_nom);
+            starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
 
     }

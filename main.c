@@ -10,8 +10,11 @@
 int main()
 {
     p_tree verbe_arbre = createTree('/');
-    init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
-    starter_menu(verbe_arbre,NULL,NULL,NULL,NULL);
+    p_tree adj_arbre = createTree('/');
+    p_tree nom_arbre = createTree('/');
+    init_trees(verbe_arbre, adj_arbre, NULL, nom_arbre);
+    srand(time(NULL));
+    starter_menu(verbe_arbre, adj_arbre, NULL, nom_arbre);
 
     /*
     p_node test;
@@ -38,7 +41,7 @@ int main()
     /*
     // Series of test for the display tree function
 
-    p_tree verbe_arbre = createTree('/');
+    p_tree tree_ver = createTree('/');
 
     p_node un = createNode('a');
     p_node deux = createNode('b');
@@ -57,13 +60,13 @@ int main()
 
 
 
-    init_trees(verbe_arbre, NULL, NULL, NULL, NULL);
+    init_trees(tree_ver, NULL, NULL, NULL, NULL);
 
-    displayNodeChild(verbe_arbre->root);
+    displayNodeChild(tree_ver->root);
 
-    // Search word in verbe_arbre
+    // Search word in tree_ver
     char word[20] = "avoir";
-    int test = isWordInTree(word, verbe_arbre);
+    int test = isWordInTree(word, tree_ver);
     printf("is word in tree verbe: %d\n",test);*/
 
     return 0;
