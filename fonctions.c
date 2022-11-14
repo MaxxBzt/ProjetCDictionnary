@@ -146,7 +146,7 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\test.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -195,37 +195,7 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
             printf("%s type of word is not handled by our software \n",cell->type);
         }*/
 
-
-
     }
-
-/*
-    while(temp_line != NULL){
-        undefined = 1;
-        if (strcmp(temp_line->type,"Ver")==0){
-            addToTree(temp_line->base_word,tree_ver);
-            printf("%s\n",temp_line->base_word);
-            undefined = 0;
-        }
-        /*
-        if (strcmp(temp_line->type,"Adj")==0){
-            addToTree(temp_line->base_word,tree_adj);
-            undefined = 0;
-        }
-        if (strcmp(temp_line->type,"Adv")==0){
-            addToTree(temp_line->base_word,tree_adv);
-            undefined = 0;
-        }
-        if (strcmp(temp_line->type,"Nom")==0){
-            addToTree(temp_line->base_word,tree_nom);
-            undefined = 0;
-        }
-        if (undefined==1){
-            printf("%s type of word is not handled by our software \n",temp_line->type);
-        }
-        temp_line = temp_line->next;
-    }*/
-
 }
 
 p_node findIfLetterInList(p_node node,char letter){
@@ -379,5 +349,29 @@ int secure_input_int()
         choice_read = scanf(" %d", &option);
     }
     return option;
+}
+
+//fonction qui génère une phrase avec les formes de base des mots
+char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree){
+    int random = rand()%2;
+    char** phrase = NULL;
+
+    if (random == 0){
+        phrase = (char**)calloc(4, sizeof(char*));
+        phrase[0] = Extract_random_word_from_tree(nom_tree);
+        phrase[1] = Extract_random_word_from_tree(adj_tree);
+        phrase[2] = Extract_random_word_from_tree(ver_tree);
+        phrase[3] = Extract_random_word_from_tree(nom_tree);
+    }
+    else{
+        phrase = (char**)calloc(6, sizeof(char*));
+        phrase[0] = Extract_random_word_from_tree(nom_tree);
+        phrase[1] = "qui";
+        phrase[2] = Extract_random_word_from_tree(ver_tree);
+        phrase[3] = Extract_random_word_from_tree(ver_tree);
+        phrase[4] = Extract_random_word_from_tree(nom_tree);
+        phrase[5] = Extract_random_word_from_tree(adj_tree);
+    }
+    return phrase;
 }
 
