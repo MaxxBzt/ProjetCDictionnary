@@ -352,25 +352,37 @@ int secure_input_int()
 }
 
 //fonction qui génère une phrase avec les formes de base des mots
-char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree){
-    int random = rand()%2;
-    char** phrase = NULL;
+char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree, int modele){
+    char* phrase[10];
 
-    if (random == 0){
-        phrase = (char**)calloc(4, sizeof(char*));
-        phrase[0] = Extract_random_word_from_tree(nom_tree);
-        phrase[1] = Extract_random_word_from_tree(adj_tree);
-        phrase[2] = Extract_random_word_from_tree(ver_tree);
-        phrase[3] = Extract_random_word_from_tree(nom_tree);
-    }
-    else{
-        phrase = (char**)calloc(6, sizeof(char*));
-        phrase[0] = Extract_random_word_from_tree(nom_tree);
-        phrase[1] = "qui";
-        phrase[2] = Extract_random_word_from_tree(ver_tree);
-        phrase[3] = Extract_random_word_from_tree(ver_tree);
-        phrase[4] = Extract_random_word_from_tree(nom_tree);
-        phrase[5] = Extract_random_word_from_tree(adj_tree);
+    switch (modele)
+    {
+        case 1:
+        {
+            //phrase = (char**)calloc(4, sizeof(char*));
+            phrase[0] = Extract_random_word_from_tree(nom_tree);
+            phrase[1] = Extract_random_word_from_tree(adj_tree);
+            phrase[2] = Extract_random_word_from_tree(ver_tree);
+            phrase[3] = Extract_random_word_from_tree(nom_tree);
+        }
+        case 2:
+        {
+            //phrase = (char**)calloc(6, sizeof(char*));
+            phrase[0] = Extract_random_word_from_tree(nom_tree);
+            phrase[1] = "qui";
+            phrase[2] = Extract_random_word_from_tree(ver_tree);
+            phrase[3] = Extract_random_word_from_tree(ver_tree);
+            phrase[4] = Extract_random_word_from_tree(nom_tree);
+            phrase[5] = Extract_random_word_from_tree(adj_tree);
+        }
+        case 3:
+        {
+            //phrase = (char**)calloc(4, sizeof(char*));
+            phrase[0] = Extract_random_word_from_tree(nom_tree);
+            phrase[1] = Extract_random_word_from_tree(ver_tree);
+            phrase[2] = Extract_random_word_from_tree(adj_tree);
+            phrase[3] = Extract_random_word_from_tree(nom_tree);
+        }
     }
     return phrase;
 }

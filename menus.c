@@ -276,7 +276,7 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
            "3. Enter 3 for the model : noun : verb : adjective : noun\n"
            "4. Enter 4 to go back to the starter menu\n>>>");
     submenu_choice = secure_input_int();
-
+/*
     switch (submenu_choice)
     {
         case 1 :
@@ -325,5 +325,5 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
             starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
 
-    }
+    }*/
 }
