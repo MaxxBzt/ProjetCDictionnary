@@ -5,7 +5,7 @@
 #include "menus.h"
 
 void starter_menu(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
-    printf("-------------------------------------------------\n");
+    printf("\n\n\n-------------------------------------------------\n");
     printf("-                 MENU                          -\n");
     printf("-------------------------------------------------\n");
 
@@ -110,15 +110,17 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
     int isWordIntree;
     switch(choice)
     {
-        case 1:
-        { //formes de bases
+        case 1: { //formes de bases
             printf("What is your word?\n");
-            scanf("%s",mot);
-            isWordIntree = isWordInTree(mot,current_tree);
-            if (isWordIntree == 1)
-                printf("The word : %s is in the tree of type : %s\n",mot,current_tree->type);
-            else
-                printf("The word : %s is not in the tree of type : %s\n",mot,current_tree->type);
+            scanf("%s", mot);
+            isWordIntree = isWordInTree(mot, current_tree);
+            if (isWordIntree == 1){
+                printf("The word : %s is in the tree of type : %s\n", mot, current_tree->type);
+                ask_to_add_flechie_word(current_tree, mot);
+            }
+            else{
+                printf("The word : %s is not in the tree of type : %s\n", mot, current_tree->type);
+                }
             break;
         }
         case 2 :
@@ -211,7 +213,10 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
         }
         case 2 :
         { // formes fléchies
-            // A VOIR
+            p_flechiescell temp_cell;
+            random_word = Extract_random_word_from_tree(current_tree);
+            temp_cell = randomFlechiesWord(random_word,current_tree);
+            printf("The randomly selected flechie word is %s. Its declinaison is : %s\n",temp_cell->flechie_word,temp_cell->declinaison);
             break;
         }
         case 3:
