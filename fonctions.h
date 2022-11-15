@@ -28,8 +28,6 @@ char* Extract_random_word_from_tree( p_tree tree);
 int countNumberOfNextOfANode(p_node node);
 
 int secure_input_int();
-p_flechiescell randomFlechiesWord(char*, p_tree);
-void ask_to_add_flechie_word(p_tree tree,char* word);
 
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

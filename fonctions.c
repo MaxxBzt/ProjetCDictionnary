@@ -146,7 +146,7 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Git/ProjetCDictionnary/dictionnaire_non_accentue.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
@@ -278,29 +278,14 @@ p_node isWordInTree(char* word, p_tree tree){
 
 void add_flechies_form(char* base_word,p_tree tree){
     char flechies_form[50],declinaison[50];
-    p_node temp = isWordInTree(base_word,tree);
-    //We check if the word has flechies forms
-    if (temp->formes_flechies==NULL){
-        printf("There is no forme flechie for %s",base_word);
-    } else {
-        printf("Here is a list of all flechie words of %s : \n", base_word);
-        displayFlechieList(temp->formes_flechies);
-    }
-
-    //We ask the user what word flechie they want to add
     printf("What is the word you want to add ?\n");
     scanf("%s",flechies_form);
     fflush(stdin);
     printf("What is the declinaison of the word (Please respect the dictionnary syntax) ?\n");
     scanf("%s",declinaison);
     fflush(stdin);
-
-
+    p_node temp = isWordInTree(base_word,tree);
     p_flechiescell temp_flechie = createFlechieCell(flechies_form,declinaison);
-    if (temp->formes_flechies==NULL){
-        //If the list of flechies forms is empty, we create it
-        createFlechiesList(base_word,temp_flechie);
-    }
     addFlechieCell(temp->formes_flechies,temp_flechie);
 }
 
@@ -436,33 +421,3 @@ char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p
     return phrase;
 }
 
-p_flechiescell randomFlechiesWord(char* word, p_tree tree){
-    p_node temp = isWordInTree(word,tree);
-    if (temp->formes_flechies==NULL){
-        return NULL;
-    }
-    p_flechieslist list = temp->formes_flechies;
-    p_flechiescell cell = list->head;
-    int count = list->number;
-    int random = rand()%count;
-    for(int i = 0; i < random; i++)
-    {
-        cell = cell->next;
-    }
-    return cell;
-}
-
-void ask_to_add_flechie_word(p_tree tree,char* word){
-    int choice;
-    printf("Do you want to add a flechie form to %s ?\n",word);
-    printf("1. Yes\n");
-    printf("2. No\n");
-    printf("Do you want to add a flechie form to %s\n"
-           "1. Enter 1 for yes\n"
-           "2. Enter 2 for no>>>\n",word);
-    choice = secure_input_int();
-    if (choice==2){
-        return;
-    }
-    add_flechies_form(word,tree);
-}
