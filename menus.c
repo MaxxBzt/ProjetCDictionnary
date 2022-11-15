@@ -266,9 +266,7 @@ void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_t
 
 void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
 {
-    /*
-
-     */
+    char ** phrase;
     int submenu_choice;
     printf("From which model do you want the sentences to be generated ?\n"
            "1. Enter 1 for the model : noun : adjective : verb : noun\n"
@@ -276,7 +274,11 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
            "3. Enter 3 for the model : noun : verb : adjective : noun\n"
            "4. Enter 4 to go back to the starter menu\n>>>");
     submenu_choice = secure_input_int();
-/*
+
+    phrase = generateurPhraseBase(tree_ver, tree_nom, tree_adj, tree_adv, submenu_choice);
+
+    printf("Your random generated sentence is :\n");
+
     switch (submenu_choice)
     {
         case 1 :
@@ -287,7 +289,7 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
             }
             else // Model with formes de bases
             {
-                // A VOIR
+                printf("%s %s %s %s\n\n", phrase[0], phrase[1],phrase[2],phrase[3]);
             }
             starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
@@ -299,7 +301,7 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
             }
             else // Model with formes de bases
             {
-                // A VOIR
+                printf("%s %s %s %s %s %s\n\n", phrase[0], phrase[1],phrase[2],phrase[3],phrase[4],phrase[5]);
             }
             starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
@@ -311,7 +313,7 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
             }
             else // Model with formes de bases
             {
-                // A VOIR
+                printf("%s %s %s %s\n\n", phrase[0], phrase[1],phrase[2],phrase[3]);
             }
             starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
@@ -325,5 +327,5 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
             starter_menu(tree_ver,tree_adj,tree_adv,tree_nom);
         }
 
-    }*/
+    }
 }
