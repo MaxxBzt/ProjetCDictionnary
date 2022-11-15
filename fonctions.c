@@ -23,24 +23,25 @@ int isSubstringInString(char* string, char *string_to_search)
 
 
 // Fonction servant à séparer un string par rapport à un délimiteur
-char** split_a_string(char* string, char separator, int *len_string)
+char** split_a_string(char* string, char separator)
 {
     // New list where each element is a sub-list of the string
     char **list = NULL;
     // 3 because we have 3 categories to store in the previous list (3 columns in the file)
     list = malloc( sizeof(char*) * 3);
     int idx = 0;
+    int len_string = 0;
 
     // We count the numbers of characters in the string
     while(string[idx] != '\n')
     {
-        (*len_string)++;
+        (len_string)++;
         idx++;
     }
 
     // We allocate a size to each case of the list
     for (int i=0; i<3;i++) {
-        list[i] = malloc(sizeof(char)* (*len_string));
+        list[i] = malloc(sizeof(char)* (len_string));
     }
 
 
@@ -140,18 +141,17 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
 
 
-    char line_of_the_dictionary_file[100];
+    char line_of_the_dictionary_file[150];
     char **array_of_sub_lines;
-    int nb_of_characters_in_a_line = 0 ;
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\test.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
 
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
     {
-        array_of_sub_lines = split_a_string(line_of_the_dictionary_file, '\t', &nb_of_characters_in_a_line);
+        array_of_sub_lines = split_a_string(line_of_the_dictionary_file, '\t');
 
         cell = createCell_DictionaryList(array_of_sub_lines[0], array_of_sub_lines[1], array_of_sub_lines[2]);
 

@@ -9,7 +9,7 @@
 
 t_dictionarylist Split_dictionary_in_linked_list();
 
-char** split_a_string(char* , char , int*);
+char** split_a_string(char* , char);
 int isSubstringInString(char*, char*);
 
 void addToTree(p_dictionarycell, p_tree);

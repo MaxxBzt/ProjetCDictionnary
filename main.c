@@ -20,7 +20,7 @@ int main()
     //phrase = generateurPhraseBase(verbe_arbre, nom_arbre, adj_arbre, adv_arbre, 1);
     //printf("%s %s %s %s", phrase[0], phrase[1],phrase[2],phrase[3]);
 
-    starter_menu(verbe_arbre, NULL, NULL, NULL);
+    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
     return 0;
 }
 
