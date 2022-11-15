@@ -60,3 +60,25 @@ p_flechiescell createFlechieCell(char* flechie, char* declinaison){
 
     return new;
 }
+
+void addFlechieCell(p_flechieslist list, p_flechiescell cell){
+    p_flechiescell temp = list->head;
+    while(temp->next != NULL){
+        if ( temp->flechie_word == cell->flechie_word && temp->declinaison == cell->declinaison){
+            printf("This flechie_word already exists in the list");
+            return;
+        }
+        temp = temp->next;
+    }
+    temp->next = cell;
+    list->number++;
+}
+
+void displayFlechieList(p_flechieslist list){
+    p_flechiescell temp = list->head;
+    printf("Base word : %s\nNumber of flechies forms : %d\n ", list->base_word,list->number);
+    while(temp != NULL){
+        printf("Word Flechie : %s || Declinaison : %s\n", temp->flechie_word, temp->declinaison);
+        temp = temp->next;
+    }
+}

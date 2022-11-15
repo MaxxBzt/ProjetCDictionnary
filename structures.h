@@ -63,6 +63,8 @@ p_dictionarycell createCell_DictionaryList(char*, char*, char* );
 p_tree createTree(char letter);
 p_flechiescell createFlechieCell(char*, char*);
 p_flechieslist createFlechiesList(char *, p_flechiescell);
+void addFlechieCell(p_flechieslist, p_flechiescell);
+void displayFlechieList(p_flechieslist list);
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H

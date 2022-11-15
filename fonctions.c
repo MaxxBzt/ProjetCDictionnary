@@ -248,8 +248,7 @@ p_node createNodeInTree(p_node node,char* word){
     return search;
 }
 
-/* Function which checks if a word is in a tree */
-int isWordInTree(char* word, p_tree tree){
+p_node isWordInTree(char* word, p_tree tree){
 
     int idx = 0;
     p_node temp;
@@ -265,16 +264,29 @@ int isWordInTree(char* word, p_tree tree){
             /* If temp = Null, that means that none of the letters of the level idx+1 is stored in the tree
             so the word isn't in the tree. */
             if (temp == NULL)
-                return 0;
+                return NULL;
         }
         current_parent = temp;
         idx++;
     }
     // If the current parent foudn doesn't have a list of formes flechies, that means that it isn't a word of the dictionary.
     if(current_parent->formes_flechies == NULL)
-        return 0;
-    return 1;
+        return NULL;
+    return current_parent;
 
+}
+
+void add_flechies_form(char* base_word,p_tree tree){
+    char flechies_form[50],declinaison[50];
+    printf("What is the word you want to add ?\n");
+    scanf("%s",flechies_form);
+    fflush(stdin);
+    printf("What is the declinaison of the word (Please respect the dictionnary syntax) ?\n");
+    scanf("%s",declinaison);
+    fflush(stdin);
+    p_node temp = isWordInTree(base_word,tree);
+    p_flechiescell temp_flechie = createFlechieCell(flechies_form,declinaison);
+    addFlechieCell(temp->formes_flechies,temp_flechie);
 }
 
 int countNumberOfNextOfANode(p_node node)

@@ -20,7 +20,9 @@ void init_trees(p_tree,p_tree,p_tree,p_tree);
 p_node findIfLetterInList(p_node ,char );
 p_node createNodeInTree(p_node, char* );
 
-int isWordInTree(char *word, p_tree);
+p_node isWordInTree(char *word, p_tree);
+void add_flechies_form(char* ,p_tree);
+
 char** generateurPhraseBase(p_tree, p_tree, p_tree, p_tree, int);
 char* Extract_random_word_from_tree( p_tree tree);
 int countNumberOfNextOfANode(p_node node);
