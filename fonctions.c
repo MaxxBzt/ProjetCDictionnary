@@ -79,7 +79,11 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
     p_node temp_node;
     int stop=0;
 
+    //printf("1.temp_line->forme_flechie = %s\n", temp_line->forme_flechie);
     temp_node = createNodeInTree(word_tree->root, temp_line->base_word);
+    //printf("2.temp_line->base_word = %s\n", temp_line->base_word);
+    //printf("3.temp_node->char = %c\n", temp_node->letter);
+
 
     if (temp_node->formes_flechies==NULL){
         // If there is no forme flechies yet, we create the list and assign the first word
@@ -107,8 +111,8 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
             tempFlechieCell->next = newFlechhieCell;
             tempFlechiesList->number++;
         }
-
     }
+
     return;
 }
 
@@ -137,17 +141,12 @@ void displayNodeChild(p_node node){
 
 /* Function which initializes every tree (per type) */
 void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
-    int undefined;
-    //char *types[] = {"Ver","Pre","Adj","Adv","Nom"};
-
-
     char line_of_the_dictionary_file[150];
     char **array_of_sub_lines;
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
-
+    FILE* dictionary_file = fopen("/Users/max/Git/ProjetCDictionnary/dictionnaire_non_accentue.txt", "r");
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
     {
@@ -166,34 +165,25 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
                 cell->type = "/";
             }
         }
-        undefined = 1;
         if (strcmp(cell->type,"Ver")==0){
             addToTree(cell,tree_ver);
             tree_ver->type = cell->type;
-            //printf("%s\n",cell->base_word);
-            undefined = 0;
         }
 
         if (strcmp(cell->type,"Adj")==0){
             addToTree(cell,tree_adj);
             tree_adj->type = cell->type;
-            undefined = 0;
         }
         if (strcmp(cell->type,"Adv")==0){
             addToTree(cell,tree_adv);
             tree_adv->type = cell->type;
-            undefined = 0;
         }
         if (strcmp(cell->type,"Nom")==0){
             addToTree(cell,tree_nom);
             tree_nom->type = cell->type;
-            undefined = 0;
         }
         free(cell);
-        /*
-        if (undefined==1){
-            printf("%s type of word is not handled by our software \n",cell->type);
-        }*/
+
 
     }
 }
@@ -245,8 +235,12 @@ p_node createNodeInTree(p_node node,char* word){
 
         index++;
     }
+    search = findIfLetterInList(search, word[index]);
     return search;
 }
+
+
+
 
 p_node isWordInTree(char* word, p_tree tree){
 
@@ -276,18 +270,7 @@ p_node isWordInTree(char* word, p_tree tree){
 
 }
 
-void add_flechies_form(char* base_word,p_tree tree){
-    char flechies_form[50],declinaison[50];
-    printf("What is the word you want to add ?\n");
-    scanf("%s",flechies_form);
-    fflush(stdin);
-    printf("What is the declinaison of the word (Please respect the dictionnary syntax) ?\n");
-    scanf("%s",declinaison);
-    fflush(stdin);
-    p_node temp = isWordInTree(base_word,tree);
-    p_flechiescell temp_flechie = createFlechieCell(flechies_form,declinaison);
-    addFlechieCell(temp->formes_flechies,temp_flechie);
-}
+
 
 int countNumberOfNextOfANode(p_node node)
 {
@@ -421,3 +404,57 @@ char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p
     return phrase;
 }
 
+p_flechiescell randomFlechiesWord(char* word, p_tree tree){
+    p_node temp = isWordInTree(word,tree);
+    if (temp->formes_flechies==NULL){
+        return NULL;
+    }
+    p_flechieslist list = temp->formes_flechies;
+    p_flechiescell cell = list->head;
+    int count = list->number;
+    int random = rand()%count;
+    for(int i = 0; i < random; i++)
+    {
+        cell = cell->next;
+    }
+    return cell;
+}
+
+void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
+    int choice;
+
+    printf("Do you want to add a flechie form to %s\n"
+           "1. Enter 1 for yes\n"
+           "2. Enter 2 for no \n>>>",word);
+    choice = secure_input_int();
+    if (choice==2){
+        return;
+    }
+    else{
+        char* flechies_form = malloc(sizeof(char)*15);
+        char* declinaison = malloc(sizeof(char)*15);
+        printf("Enter the flechie form of %s\n>>>",word);
+        scanf("%s",flechies_form);
+        printf("Enter the declinaison of %s\n>>>",flechies_form);
+        scanf("%s",declinaison);
+
+
+
+        p_flechiescell temp_flechie = createFlechieCell(flechies_form,declinaison);
+        p_flechiescell tempcell = node->formes_flechies->head;
+
+
+        while(tempcell->next != NULL){
+            if ( tempcell->flechie_word == flechies_form && tempcell->declinaison == declinaison){
+                printf("This flechie_word already exists in the list");
+                return;
+            }
+            tempcell = tempcell->next;
+        }
+        tempcell->next = temp_flechie;
+
+
+        node->formes_flechies->number++;
+    }
+
+}

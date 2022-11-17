@@ -107,7 +107,7 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
     choice = secure_input_int();
 
     char mot[30];
-    int isWordIntree;
+    p_node isWordIntree;
     switch(choice)
     {
         case 1:
@@ -115,8 +115,12 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
             printf("What is your word?\n");
             scanf("%s",mot);
             isWordIntree = isWordInTree(mot,current_tree);
-            if (isWordIntree == 1)
+            if (isWordIntree != NULL){
                 printf("The word : %s is in the tree of type : %s\n",mot,current_tree->type);
+                ask_to_add_flechie_word(current_tree,mot,isWordIntree);
+                printf("List of all fléchies forms : ");
+                displayFlechieList(isWordIntree->formes_flechies);
+                }
             else
                 printf("The word : %s is not in the tree of type : %s\n",mot,current_tree->type);
             break;
@@ -211,7 +215,10 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
         }
         case 2 :
         { // formes fléchies
-            // A VOIR
+            random_word = Extract_random_word_from_tree(current_tree);
+            p_flechiescell temp_cell = randomFlechiesWord(random_word,current_tree);
+            printf("The randomly selected flechie word is %s. Its declinaison is : %s\n",temp_cell->flechie_word,temp_cell->declinaison);
+
             break;
         }
         case 3:

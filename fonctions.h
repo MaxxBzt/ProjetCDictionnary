@@ -21,13 +21,17 @@ p_node findIfLetterInList(p_node ,char );
 p_node createNodeInTree(p_node, char* );
 
 p_node isWordInTree(char *word, p_tree);
-void add_flechies_form(char* ,p_tree);
 
 char** generateurPhraseBase(p_tree, p_tree, p_tree, p_tree, int);
 char* Extract_random_word_from_tree( p_tree tree);
 int countNumberOfNextOfANode(p_node node);
 
+p_flechiescell randomFlechiesWord(char*, p_tree);
+void ask_to_add_flechie_word(p_tree tree,char* word,p_node node);
+
 int secure_input_int();
+
+
 
 
 #endif //PROJETCDICTIONNARY_FONCTIONS_H

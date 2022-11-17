@@ -9,6 +9,7 @@
 
 int main()
 {
+    printf("!--WARNING--!\nPlease make sure that the path of the dictionary file is correct \n");
     p_tree verbe_arbre = createTree('0');
     p_tree adj_arbre = createTree('0');
     p_tree adv_arbre = createTree('0');
