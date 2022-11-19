@@ -25,6 +25,13 @@ typedef struct flechieslist
  p_flechiescell head;
 } t_flechieslist, *p_flechieslist;
 
+ typedef struct flechiesearch
+ {
+     char* base_word;
+     char* declinaison;
+     char* flechie_word;
+ } t_flechiesearch, *p_flechiesearch;
+
 
 /*-------------- STRUCTURES RELATED TO THE TRESS --------------*/
 typedef struct s_node
@@ -65,6 +72,7 @@ p_flechiescell createFlechieCell(char*, char*);
 p_flechieslist createFlechiesList(char *, p_flechiescell);
 void addFlechieCell(p_flechieslist, p_flechiescell);
 void displayFlechieList(p_flechieslist list);
+p_flechiesearch createFlechieSearch(char*, char*, char*);
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H

@@ -127,7 +127,13 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
         }
         case 2 :
         { // formes fléchies
-            // ETAPE 7
+            p_flechiesearch result;
+            printf("What is your word?\n");
+            scanf("%s",mot);
+            result = searchBaseWord(current_tree->root,mot);
+            if (result == NULL){
+                printf("The word flechie : %s is not in the tree of type : %s\n",mot,current_tree->type);
+            }
             break;
         }
         case 3:

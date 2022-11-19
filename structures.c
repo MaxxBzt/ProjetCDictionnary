@@ -74,6 +74,18 @@ void addFlechieCell(p_flechieslist list, p_flechiescell cell){
     list->number++;
 }
 
+/* Function to create the cell of a formes fléchies according to the structure flechies_cell */
+
+p_flechiesearch createFlechieSearch(char* base_word, char* flechie, char* declinaison){
+    p_flechiesearch new;
+    new = (p_flechiesearch)malloc(sizeof(t_flechiesearch));
+    new->flechie_word = flechie;
+    new->declinaison = declinaison;
+    new->base_word = base_word;
+
+    return new;
+}
+
 void displayFlechieList(p_flechieslist list){
     p_flechiescell temp = list->head;
     printf("Base word : %s\nNumber of flechies forms : %d\n ", list->base_word,list->number);

@@ -458,3 +458,43 @@ void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
     }
 
 }
+
+
+p_flechiesearch searchFormeFlechie(p_node node, char* word){
+    if (node->formes_flechies == NULL){
+        // if there is no form flechies we return NULL
+        return NULL;
+    }
+
+    p_flechieslist tempList=node->formes_flechies;
+    p_flechiescell tempCell=tempList->head;
+
+    while (tempCell!=NULL){
+        if (strcmp(tempCell->flechie_word,word)==0){
+            //we check if we find the flechie word
+            p_flechiesearch result = createFlechieSearch(tempList->base_word,tempCell->flechie_word,tempCell->declinaison);
+            printf("The word : %s is in the tree\nIts base form is %s and its declinaison is %s",result->flechie_word,result->base_word,result->declinaison);
+            return result;
+
+        }
+        tempCell=tempCell->next;
+    }
+
+}
+
+p_flechiesearch searchBaseWord(p_node node, char* word){
+    p_node temp = node;
+    //p_flechiesearch tempsearch = searchFormeFlechie(temp,word);
+
+    if (temp->child==NULL && temp->next==NULL && node->formes_flechies==NULL){
+        return NULL;
+    }
+    if (temp->next!=NULL){
+        searchBaseWord(temp->next,word);
+    }
+    if (temp->child!=NULL){
+        searchBaseWord(temp->child,word);
+    }
+    return searchFormeFlechie(temp,word);;
+
+}

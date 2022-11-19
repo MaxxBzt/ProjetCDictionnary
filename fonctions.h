@@ -29,6 +29,10 @@ int countNumberOfNextOfANode(p_node node);
 p_flechiescell randomFlechiesWord(char*, p_tree);
 void ask_to_add_flechie_word(p_tree tree,char* word,p_node node);
 
+p_flechiesearch searchFormeFlechie(p_node node, char* word);
+p_flechiesearch searchBaseWord(p_node node, char* word);
+
+
 int secure_input_int();
 
 
