@@ -81,7 +81,7 @@ void addToTree(p_dictionarycell temp_line, p_tree word_tree){
 
     //printf("1.temp_line->forme_flechie = %s\n", temp_line->forme_flechie);
     temp_node = createNodeInTree(word_tree->root, temp_line->base_word);
-    //printf("2.temp_line->base_word = %s\n", temp_line->base_word);
+    //printf("2.temp_l||ine->base_word = %s\n", temp_line->base_word);
     //printf("3.temp_node->char = %c\n", temp_node->letter);
 
 
@@ -146,7 +146,7 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
     char *types[] = {"Ver","Adj", "Adv", "Nom"};
     int nbr_of_types = 4;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Git/ProjetCDictionnary/dictionnaire_non_accentue.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
     {
@@ -318,9 +318,14 @@ char* Extract_random_word_from_tree(p_tree tree)
         word[idx] = temp->letter;
         idx++;
 
+        /* We add this part to the code so that the probability to get a one letter word is lower than the probability
+         * to get a more than one letter word*/
+
+
         // One chance out of two to stop when we come to a word
         if(temp->formes_flechies != NULL)
             b = rand()%2;
+
         // peut pas aller plus loin
         if(temp->child == NULL)
             b = 0;
@@ -349,20 +354,15 @@ int secure_input_int()
 char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree, int modele){
     char** phrase = NULL;
     int size;
-    if(modele == 1)
+    if(modele == 1  || modele == 3)
     {
         phrase = malloc( sizeof(char*) * 4);
         size = 4;
     }
-    else if(modele == 2)
+    else
     {
         phrase = malloc( sizeof(char*) * 6);
         size = 6;
-    }
-    else
-    {
-        phrase = malloc( sizeof(char*) * 3);
-        size = 3;
     }
 
     // We allocate a size to each case of the list
@@ -394,10 +394,11 @@ char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p
         }
         case 3:
         {
-            // verbe + adverbe + nom
-            phrase[0] = Extract_random_word_from_tree(ver_tree);
-            phrase[1] = Extract_random_word_from_tree(adv_tree);
-            phrase[2] = Extract_random_word_from_tree(nom_tree);
+            // noun : verb : adjective : noun
+            phrase[0] = Extract_random_word_from_tree(nom_tree);
+            phrase[1] = Extract_random_word_from_tree(ver_tree);
+            phrase[2] = Extract_random_word_from_tree(adj_tree);
+            phrase[3] = Extract_random_word_from_tree(nom_tree);
             break;
         }
     }
@@ -423,7 +424,7 @@ p_flechiescell randomFlechiesWord(char* word, p_tree tree){
 void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
     int choice;
 
-    printf("Do you want to add a flechie form to %s\n"
+    printf("Do you want to add a flechie form to '%s'\n"
            "1. Enter 1 for yes\n"
            "2. Enter 2 for no \n>>>",word);
     choice = secure_input_int();
@@ -433,9 +434,9 @@ void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
     else{
         char* flechies_form = malloc(sizeof(char)*15);
         char* declinaison = malloc(sizeof(char)*15);
-        printf("Enter the flechie form of %s\n>>>",word);
+        printf("Enter the flechie form of '%s'\n>>>",word);
         scanf("%s",flechies_form);
-        printf("Enter the declinaison of %s\n>>>",flechies_form);
+        printf("Enter the declinaison of '%s'\n>>>",flechies_form);
         scanf("%s",declinaison);
 
 
@@ -446,7 +447,7 @@ void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
 
         while(tempcell->next != NULL){
             if ( tempcell->flechie_word == flechies_form && tempcell->declinaison == declinaison){
-                printf("This flechie_word already exists in the list");
+                printf("This flechie_word already exists in the list\n.");
                 return;
             }
             tempcell = tempcell->next;
@@ -460,41 +461,68 @@ void ask_to_add_flechie_word(p_tree tree,char* word,p_node node){
 }
 
 
-p_flechiesearch searchFormeFlechie(p_node node, char* word){
-    if (node->formes_flechies == NULL){
-        // if there is no form flechies we return NULL
+p_flechiesearch searchFormeFlechie(p_node node, char* word)
+{
+    if(node->formes_flechies == NULL){
+        // if there is no form flechies we return NULL -> not a word
         return NULL;
     }
-
     p_flechieslist tempList=node->formes_flechies;
     p_flechiescell tempCell=tempList->head;
-
-    while (tempCell!=NULL){
+    while (tempCell!=NULL)
+    {
         if (strcmp(tempCell->flechie_word,word)==0){
             //we check if we find the flechie word
             p_flechiesearch result = createFlechieSearch(tempList->base_word,tempCell->flechie_word,tempCell->declinaison);
-            printf("The word : %s is in the tree\nIts base form is %s and its declinaison is %s",result->flechie_word,result->base_word,result->declinaison);
+            printf("The word : '%s' is in the tree.\nIts base form is '%s' and its declinaison is '%s'\n",result->flechie_word,result->base_word,result->declinaison);
             return result;
-
         }
         tempCell=tempCell->next;
     }
-
 }
 
-p_flechiesearch searchBaseWord(p_node node, char* word){
+
+/* We are at a node, we check if it has a child, next, form flechies. if not, then current node doesn't form word*/
+
+p_flechiesearch searchBaseWord(p_node node, char* word)
+{
     p_node temp = node;
     //p_flechiesearch tempsearch = searchFormeFlechie(temp,word);
 
-    if (temp->child==NULL && temp->next==NULL && node->formes_flechies==NULL){
+    if ( (temp->child==NULL) && (temp->next==NULL) && (node->formes_flechies==NULL))
+    {
         return NULL;
     }
-    if (temp->next!=NULL){
+    if (temp->next!=NULL)
+    {
         searchBaseWord(temp->next,word);
     }
-    if (temp->child!=NULL){
+    if (temp->child!=NULL)
+    {
         searchBaseWord(temp->child,word);
     }
-    return searchFormeFlechie(temp,word);;
+    return searchFormeFlechie(temp,word);
+}
 
+void displayFlechieList(p_flechieslist list){
+    p_flechiescell temp = list->head;
+    int choice;
+    printf("Base word : '%s' || Number of flechies forms : %d\n\n ", list->base_word,list->number);
+    printf("Do you want to display every flechies form of the word '%s' ?\n"
+           "1. Enter 1 for yes\n"
+           "2. Enter 2 for no \n>>>",list->base_word);
+    choice = secure_input_int();
+    if(choice == 1)
+    {
+        printf("List of all flechies forms :\n ");
+        while(temp != NULL){
+            printf("    Word Flechie : %s || Declinaison : %s\n", temp->flechie_word, temp->declinaison);
+            sleep(1);
+            temp = temp->next;
+        }
+    }
+    else
+    {
+        return;
+    }
 }

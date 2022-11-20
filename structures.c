@@ -5,6 +5,7 @@
 #include "structures.h"
 
 
+
 /* Function to create a cell in the list of the dictionary file according to the structure dictionary_cell*/
 
 p_dictionarycell createCell_DictionaryList(char *forme_flechie, char *base_word, char *declinaison)
@@ -84,13 +85,4 @@ p_flechiesearch createFlechieSearch(char* base_word, char* flechie, char* declin
     new->base_word = base_word;
 
     return new;
-}
-
-void displayFlechieList(p_flechieslist list){
-    p_flechiescell temp = list->head;
-    printf("Base word : %s\nNumber of flechies forms : %d\n ", list->base_word,list->number);
-    while(temp != NULL){
-        printf("Word Flechie : %s || Declinaison : %s\n", temp->flechie_word, temp->declinaison);
-        temp = temp->next;
-    }
 }

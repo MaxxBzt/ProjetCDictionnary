@@ -34,6 +34,7 @@ p_flechiesearch searchBaseWord(p_node node, char* word);
 
 
 int secure_input_int();
+void displayFlechieList(p_flechieslist list);
 
 
 

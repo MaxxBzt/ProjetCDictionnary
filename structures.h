@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 
 /* -------------- STRUCTURES RELATED TO THE LIST OF FORMES FLECHIES OF A NODE -------------- */
 typedef struct flechies_cell
@@ -71,7 +72,6 @@ p_tree createTree(char letter);
 p_flechiescell createFlechieCell(char*, char*);
 p_flechieslist createFlechiesList(char *, p_flechiescell);
 void addFlechieCell(p_flechieslist, p_flechiescell);
-void displayFlechieList(p_flechieslist list);
 p_flechiesearch createFlechieSearch(char*, char*, char*);
 
 

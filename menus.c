@@ -50,13 +50,15 @@ void FirstChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_t
 
      */
     int submenu_choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("What is the type of your word?\n"
            "ATTENTION: If you don't know the type of your word, please look it up on the internet.\n"
            "1. Enter 1 for verbs\n"
            "2. Enter 2 for adjectives\n"
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
-           "5. Enter 5 to go back to the starter menu\n>>>");
+           "5. Enter 5 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     submenu_choice = secure_input_int();
 
     switch (submenu_choice)
@@ -100,10 +102,12 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
      * The function will make the program search if the word entered by the user in the current tree
      */
     int choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("Do you want to search the word according to its forme de base or forme flechie?\n"
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
-           "3. Enter 3 to go back to the starter menu\n>>>");
+           "3. Enter 3 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     choice = secure_input_int();
 
     char mot[30];
@@ -116,24 +120,25 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
             scanf("%s",mot);
             isWordIntree = isWordInTree(mot,current_tree);
             if (isWordIntree != NULL){
-                printf("The word : %s is in the tree of type : %s\n",mot,current_tree->type);
+                printf("The word : '%s' is in the tree of type : '%s'\n\n",mot,current_tree->type);
                 ask_to_add_flechie_word(current_tree,mot,isWordIntree);
-                printf("List of all fléchies forms : ");
+                sleep(1);
                 displayFlechieList(isWordIntree->formes_flechies);
                 }
             else
-                printf("The word : %s is not in the tree of type : %s\n",mot,current_tree->type);
+                printf("The word : '%s' is not in the tree of type : '%s'\n",mot,current_tree->type);
             break;
         }
         case 2 :
         { // formes fléchies
-            p_flechiesearch result;
             printf("What is your word?\n");
             scanf("%s",mot);
-            result = searchBaseWord(current_tree->root,mot);
-            if (result == NULL){
+            p_flechiesearch result;
+            searchBaseWord(current_tree->root,mot);
+            /*if (result->found == 0)
+            {
                 printf("The word flechie : %s is not in the tree of type : %s\n",mot,current_tree->type);
-            }
+            }*/
             break;
         }
         case 3:
@@ -154,13 +159,15 @@ void SecondChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_
 
      */
     int submenu_choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("What is the type of your word?\n"
            "ATTENTION: If you don't know the type of your word, please look it up on the internet.\n"
            "1. Enter 1 for verbs\n"
            "2. Enter 2 for adjectives\n"
            "3. Enter 3 for adverbs\n"
            "4. Enter 4 for nouns\n"
-           "5. Enter 5 to go back to the starter menu\n>>>");
+           "5. Enter 5 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     submenu_choice = secure_input_int();
 
     switch (submenu_choice)
@@ -203,10 +210,12 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
      *
      */
     int choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("Do you want to generate a random word according to its forme de base or forme flechie?\n"
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
-           "3. Enter 3 to go back to the starter menu\n>>>");
+           "3. Enter 3 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     choice = secure_input_int();
 
     char *random_word;
@@ -215,7 +224,7 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
         case 1:
         { //formes de bases
             random_word = Extract_random_word_from_tree(current_tree);
-            printf("The randomly selected word is %s. Its type is : %s\n",random_word,current_tree->type);
+            printf("The randomly selected word is '%s'. Its type is : '%s'\n",random_word,current_tree->type);
 
             break;
         }
@@ -223,7 +232,7 @@ void SecondChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_ad
         { // formes fléchies
             random_word = Extract_random_word_from_tree(current_tree);
             p_flechiescell temp_cell = randomFlechiesWord(random_word,current_tree);
-            printf("The randomly selected flechie word is %s. Its declinaison is : %s\n",temp_cell->flechie_word,temp_cell->declinaison);
+            printf("The randomly selected flechie word is '%s'. Its declinaison is : %s\n",temp_cell->flechie_word,temp_cell->declinaison);
 
             break;
         }
@@ -245,10 +254,12 @@ void ThirdChoice_Submenu_One(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_t
      *
      */
     int choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("Do you want to generate sentences of words based on their forme de base or forme flechie?\n"
            "1. Enter 1 for formes de bases\n"
            "2. Enter 2 for formes flechies\n"
-           "3. Enter 3 to go back to the starter menu\n>>>");
+           "3. Enter 3 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     choice = secure_input_int();
 
     switch(choice)
@@ -281,11 +292,13 @@ void ThirdChoice_Submenu_Two(char type,p_tree tree_ver,p_tree tree_adj,p_tree tr
 {
     char ** phrase;
     int submenu_choice;
+    printf("---------------------------------------------------------------------------------------\n");
     printf("From which model do you want the sentences to be generated ?\n"
            "1. Enter 1 for the model : noun : adjective : verb : noun\n"
            "2. Enter 2 for the model : noun : qui : verb : verb : noun : adjective\n"
            "3. Enter 3 for the model : noun : verb : adjective : noun\n"
-           "4. Enter 4 to go back to the starter menu\n>>>");
+           "4. Enter 4 to go back to the starter menu\n");
+    printf("---------------------------------------------------------------------------------------\n>>>");
     submenu_choice = secure_input_int();
 
     phrase = generateurPhraseBase(tree_ver, tree_nom, tree_adj, tree_adv, submenu_choice);
