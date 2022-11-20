@@ -1,5 +1,5 @@
 //
-// Created by Maxime Bézot on 17/10/2022.
+// Created by NGASSA Yoke, LIM Emy, BEZOT Maxime on 17/10/2022.
 //
 #include <stdio.h>
 #include "structures.h"
