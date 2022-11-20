@@ -86,3 +86,134 @@ p_flechiesearch createFlechieSearch(char* base_word, char* flechie, char* declin
 
     return new;
 }
+
+/* Function used to check if a substring belongs to a string
+* Example : if 'Point' belongs to 'Barre Point', the function returns */
+int isSubstringInString(char* string, char *string_to_search)
+{
+    //strstr returns NULL if substring not in string
+    if(strstr(string,string_to_search) != NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+}
+
+/* Function used to split a string (in n number of substrings) according to a chosen separator */
+char** split_a_string(char* string, char separator,int size)
+{
+    // New list where each element is a sub-list of the string
+    char **list = NULL;
+
+    list = malloc( sizeof(char*) * size);
+    int idx = 0;
+    int len_string = 0;
+
+    // We count the numbers of characters in the string
+    while(string[idx] != '\n')
+    {
+        (len_string)++;
+        idx++;
+    }
+
+    // We allocate a size to each case of the list
+    for (int i=0; i<size;i++) {
+        list[i] = malloc(sizeof(char)* (len_string));
+    }
+
+
+    // We count the numbers of separators (in this projet separator is tab) in the string
+    int counter_separator = 1;
+    idx = 0;
+    while(string[idx] != '\n')
+    {
+        if(string[idx] == separator)
+            counter_separator++;
+        idx++;
+    }
+
+    // We split the string, then store it in the new list
+    char * current_col = strtok(string,&separator);
+    // Sprintf = allows us to print, then store the print in a variable
+    idx = 0;
+    for(int i=0; i < counter_separator ; i++)
+    {
+        sprintf(list[idx],"%s",current_col);
+        current_col = strtok(NULL,&separator); // Cuts every time the separator appears
+        idx ++;
+    }
+
+    return list;
+}
+
+/* Function to display the child or next of a node */
+void displayNodeChild(p_node node){
+    p_node temp=node;
+    if (temp->child == NULL && temp->next==NULL){
+        printf("node %c ",temp->letter);
+        printf("no other child or next in node \n\n");
+        return;
+    }
+    else{
+        printf("node %c ",temp->letter);
+        if (temp->child != NULL){
+            printf("children :\n");
+            displayNodeChild(temp->child);
+        }
+        if (temp->next !=NULL) {
+            printf("next letter :\n");
+            displayNodeChild(temp->next);
+        }
+    }
+    return;
+
+}
+
+// Function used to find if a letter is in a node. If it does, it returns the p_node where the letter is
+p_node findIfLetterInNode(p_node node, char letter){
+    p_node temp = NULL;
+    if (node->letter == letter){
+        return node;
+    }
+    if (node->next==NULL){
+        temp = createNode(letter);
+        node->next = temp;
+        return temp;
+    }
+    else{
+        return findIfLetterInNode(node->next, letter);
+    }
+}
+
+// Function used to count the number of nodes who are on the same level of the current node in the tree
+int countNumberOfNextOfANode(p_node node)
+{
+    int count = 0;
+    p_node temp = node;
+    while(temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+// Function used to secure an INT Input, in case the user enters a string, when asked for an INT
+int secure_input_int()
+{
+    int option = 1;
+    int choice_read = 0;
+    choice_read = scanf(" %d", &option);
+    while(choice_read != 1)
+    {
+        printf("Input not a number.\n");
+        scanf("%*[^\n]");
+        printf("Enter a proper number, which is among the proposed ones.\n>>>");
+        choice_read = scanf(" %d", &option);
+    }
+    return option;
+}

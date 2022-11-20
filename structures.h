@@ -7,9 +7,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdio.h>
+
 
 /* -------------- STRUCTURES RELATED TO THE LIST OF FORMES FLECHIES OF A NODE -------------- */
 typedef struct flechies_cell
@@ -64,7 +65,7 @@ typedef struct dictionary_list
 } t_dictionarylist;
 
 
-/*-------------- FUNCTIONS --------------*/
+/*-------------- FUNCTIONS RELATED TO THE STRUCTURES --------------*/
 
 p_node createNode(char);
 p_dictionarycell createCell_DictionaryList(char*, char*, char* );
@@ -73,6 +74,15 @@ p_flechiescell createFlechieCell(char*, char*);
 p_flechieslist createFlechiesList(char *, p_flechiescell);
 void addFlechieCell(p_flechieslist, p_flechiescell);
 p_flechiesearch createFlechieSearch(char*, char*, char*);
+
+/*-------------- UTILITIES/USEFUL FUNCTIONS --------------*/
+int isSubstringInString(char* string, char *string_to_search);
+char** split_a_string(char* string, char separator,int);
+void displayNodeChild(p_node node);
+p_node findIfLetterInNode(p_node node, char letter);
+ int countNumberOfNextOfANode(p_node node);
+int secure_input_int();
+
 
 
 #endif //PROJETCDICTIONNARY_STRUCTURES_H

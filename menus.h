@@ -5,8 +5,10 @@
 #ifndef PROJETCDICTIONNARY_MENUS_H
 #define PROJETCDICTIONNARY_MENUS_H
 
-#include <stdio.h>
-#include "fonctions.h"
+#include "structures.h"
+#include "handleTrees.h"
+#include "handleSentences.h"
+
 
 void starter_menu(p_tree,p_tree,p_tree,p_tree,p_tree);
 void FirstChoice_Submenu_One(p_tree,p_tree,p_tree,p_tree,p_tree);

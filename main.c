@@ -3,21 +3,19 @@
 //
 #include <stdio.h>
 #include "structures.h"
-#include "fonctions.h"
 #include "menus.h"
 
 
 int main()
 {
-    p_tree verbe_arbre = createTree('0');
-    p_tree adj_arbre = createTree('0');
-    p_tree adv_arbre = createTree('0');
-    p_tree nom_arbre = createTree('0');
+    p_tree verb_tree = createTree('0');
+    p_tree adjective_tree = createTree('0');
+    p_tree adverb_tree = createTree('0');
+    p_tree noun_tree = createTree('0');
     p_tree determinants = createTree('0');
-    init_trees(verbe_arbre, adj_arbre, adv_arbre, nom_arbre,determinants);
     srand(time(NULL));
-
-    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre,determinants);
+    init_trees(verb_tree, adjective_tree, adverb_tree, noun_tree,determinants);
+    starter_menu(verb_tree, adjective_tree, adverb_tree, noun_tree,determinants);
     return 0;
 }
 

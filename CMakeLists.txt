@@ -4,4 +4,4 @@ project(ProjetCDictionnary C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(ProjetCDictionnary
-        main.c structures.c fonctions.c fonctions.h menus.c menus.h)
+        main.c structures.c menus.c menus.h handleTrees.c handleTrees.h handleSentences.c handleSentences.h)
