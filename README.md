@@ -1,7 +1,12 @@
 # ProjetCDictionnary
 
-When launching the program, you will get access to the menu,
-and will be able to browse through it by going the displayed propositions.
+### WARNING
+
+Please change the path to the **`dictionaire_non_accentue file`** before launching the program. It can be found when doing `ctrl+F (cmd+F on mac)` in the **handleTrees.c**. 
+
+#### HOW TO RUN
+
+Just run as you normally would on your used IDE
 
 ### SHORTCUTS
 * To test the _"Add a new word flechie to a base form"_ functionality (found in the search if a word is in a tree functionality) :\
