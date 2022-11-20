@@ -54,7 +54,7 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom,
     char *types[] = {"Ver","Adj", "Adv", "Nom","Det"};
     int nbr_of_types = 5;
     p_dictionarycell cell;
-    FILE* dictionary_file = fopen("/Users/max/Git/ProjetCDictionnary/dictionnaire_non_accentue.txt", "r");
+    FILE* dictionary_file = fopen("C:\\Users\\Travail\\Documents\\L2\\Data Structure 2\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
 
     while (fgets(line_of_the_dictionary_file, sizeof(line_of_the_dictionary_file), dictionary_file))
     {
