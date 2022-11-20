@@ -133,12 +133,8 @@ void FirstChoice_Submenu_Two(p_tree current_tree,p_tree tree_ver,p_tree tree_adj
         { // formes fléchies
             printf("What is your word?\n");
             scanf("%s",mot);
-            p_flechiesearch result;
+            printf("If the output is empty then the word is not in the tree:\n");
             searchBaseWord(current_tree->root,mot);
-            /*if (result->found == 0)
-            {
-                printf("The word flechie : %s is not in the tree of type : %s\n",mot,current_tree->type);
-            }*/
             break;
         }
         case 3:
