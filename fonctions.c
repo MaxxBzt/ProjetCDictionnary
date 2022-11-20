@@ -140,11 +140,11 @@ void displayNodeChild(p_node node){
 }
 
 /* Function which initializes every tree (per type) */
-void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom){
+void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom,p_tree determinants){
     char line_of_the_dictionary_file[150];
     char **array_of_sub_lines;
-    char *types[] = {"Ver","Adj", "Adv", "Nom"};
-    int nbr_of_types = 4;
+    char *types[] = {"Ver","Adj", "Adv", "Nom","Det"};
+    int nbr_of_types = 5;
     p_dictionarycell cell;
     FILE* dictionary_file = fopen("C:\\Users\\nolwen\\Documents\\GitHub\\ProjetCDictionnary\\dictionnaire_non_accentue.txt", "r");
 
@@ -180,6 +180,10 @@ void init_trees(p_tree tree_ver,p_tree tree_adj,p_tree tree_adv,p_tree tree_nom)
         }
         if (strcmp(cell->type,"Nom")==0){
             addToTree(cell,tree_nom);
+            tree_nom->type = cell->type;
+        }
+        if (strcmp(cell->type,"Det")==0){
+            addToTree(cell,determinants);
             tree_nom->type = cell->type;
         }
         free(cell);
@@ -285,21 +289,20 @@ int countNumberOfNextOfANode(p_node node)
 }
 
 /* Function which checks if a word is in a tree */
-char* Extract_random_word_from_tree(p_tree tree)
+char* Extract_random_base_word_from_tree(p_tree tree)
 {
 
     int idx = 0;
     // We create a list that will contain the letters of the randomly selected word
     char *word = malloc( sizeof(char*));
     int random;
-    p_node temp = tree->root;
+    p_node temp = tree->root->child;
     int count;
+    int first = 1;
     int b = 1;
 
     while(b)
     {
-        // We go to the first child of the current parent
-        temp = temp->child;
 
         // We count the number of next of the current child
         count = countNumberOfNextOfANode(temp);
@@ -318,17 +321,21 @@ char* Extract_random_word_from_tree(p_tree tree)
         word[idx] = temp->letter;
         idx++;
 
-        /* We add this part to the code so that the probability to get a one letter word is lower than the probability
-         * to get a more than one letter word*/
 
-
-        // One chance out of two to stop when we come to a word
-        if(temp->formes_flechies != NULL)
-            b = rand()%2;
+        if(first != 1)
+        {
+            // One chance out of two to stop when we come to a word
+            if(temp->formes_flechies != NULL)
+                b = rand()%2;
+        }
 
         // peut pas aller plus loin
         if(temp->child == NULL)
             b = 0;
+
+        // We go to the first child of the current parent
+        temp = temp->child;
+        first++;
     }
     word = realloc(word,strlen(word)+2);
     word[idx] = '\0';
@@ -367,7 +374,7 @@ char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p
 
     // We allocate a size to each case of the list
     for (int i=0; i<size;i++) {
-        phrase[i] = malloc(sizeof(char)* 15);
+        phrase[i] = malloc(sizeof(char)* 20);
     }
 
     switch (modele)
@@ -375,30 +382,238 @@ char** generateurPhraseBase(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p
         case 1:
         {
             //noun : adjective : verb : noun
-            phrase[0] = Extract_random_word_from_tree(nom_tree);
-            phrase[1] = Extract_random_word_from_tree(adj_tree);
-            phrase[2] = Extract_random_word_from_tree(ver_tree);
-            phrase[3] = Extract_random_word_from_tree(nom_tree);
+            phrase[0] = Extract_random_base_word_from_tree(nom_tree);
+            phrase[1] = Extract_random_base_word_from_tree(adj_tree);
+            phrase[2] = Extract_random_base_word_from_tree(ver_tree);
+            phrase[3] = Extract_random_base_word_from_tree(nom_tree);
             break;
         }
         case 2:
         {
             // noun : qui : verb : verb : noun : adjective
-            phrase[0] = Extract_random_word_from_tree(nom_tree);
+            phrase[0] = Extract_random_base_word_from_tree(nom_tree);
             phrase[1] = "qui";
-            phrase[2] = Extract_random_word_from_tree(ver_tree);
-            phrase[3] = Extract_random_word_from_tree(ver_tree);
-            phrase[4] = Extract_random_word_from_tree(nom_tree);
-            phrase[5] = Extract_random_word_from_tree(adj_tree);
+            phrase[2] = Extract_random_base_word_from_tree(ver_tree);
+            phrase[3] = Extract_random_base_word_from_tree(ver_tree);
+            phrase[4] = Extract_random_base_word_from_tree(nom_tree);
+            phrase[5] = Extract_random_base_word_from_tree(adj_tree);
             break;
         }
         case 3:
         {
-            // noun : verb : adjective : noun
-            phrase[0] = Extract_random_word_from_tree(nom_tree);
-            phrase[1] = Extract_random_word_from_tree(ver_tree);
-            phrase[2] = Extract_random_word_from_tree(adj_tree);
-            phrase[3] = Extract_random_word_from_tree(nom_tree);
+            // // noun : adjective : verb : adverbe
+            phrase[0] = Extract_random_base_word_from_tree(nom_tree);
+            phrase[1] = Extract_random_base_word_from_tree(adj_tree);
+            phrase[2] = Extract_random_base_word_from_tree(ver_tree);
+            phrase[3] = Extract_random_base_word_from_tree(adv_tree);
+            break;
+        }
+    }
+    return phrase;
+}
+// GENRE : fem mas INVENGEN
+// Nombre : pl r sg - INVPL
+char* findDeterminantandAdjectives(p_tree det, p_flechiescell noun_cell)
+{
+
+    char* random_word;
+    p_flechiescell temp_cell;
+
+    // SINGULIER + FEMININ DETERMINANT
+
+    if(isSubstringInString(noun_cell->declinaison, "SG") == 1 && isSubstringInString(noun_cell->declinaison, "Fem") == 1)
+    {
+        random_word = Extract_random_base_word_from_tree(det);
+        temp_cell = randomFlechiesWord(random_word,det);
+        while((isSubstringInString(temp_cell->declinaison, "SG") == 0) &&
+              (isSubstringInString(temp_cell->declinaison, "Fem") == 0 ||
+               isSubstringInString(temp_cell->declinaison, "InvGen") == 0))
+        {
+            random_word = Extract_random_base_word_from_tree(det);
+            temp_cell = randomFlechiesWord(random_word,det);
+        }
+        return temp_cell->flechie_word;
+    }
+    // PLURIEL FEMININ DETERMINANT
+    else if(isSubstringInString(noun_cell->declinaison, "PL") == 1 && isSubstringInString(noun_cell->declinaison, "Fem") == 1)
+    {
+        // First we assign a "Fem" and "PL" determinant
+        random_word = Extract_random_base_word_from_tree(det);
+        temp_cell = randomFlechiesWord(random_word,det);
+        while((isSubstringInString(temp_cell->declinaison, "PL") == 0) &&
+              (isSubstringInString(temp_cell->declinaison, "Fem") == 0 ||
+               isSubstringInString(temp_cell->declinaison, "InvGen") == 0))
+        {
+            random_word = Extract_random_base_word_from_tree(det);
+            temp_cell = randomFlechiesWord(random_word,det);
+        }
+        return temp_cell->flechie_word;
+    }
+    // SG + MASC DETERMINANT
+    else if(isSubstringInString(noun_cell->declinaison, "SG") == 1 && isSubstringInString(noun_cell->declinaison, "Mas") == 1)
+    {
+        // First we assign a "Fem" and "PL" determinant
+        random_word = Extract_random_base_word_from_tree(det);
+        temp_cell = randomFlechiesWord(random_word,det);
+        while((isSubstringInString(temp_cell->declinaison, "SG") == 0) &&
+              (isSubstringInString(temp_cell->declinaison, "Mas") == 0 ||
+               isSubstringInString(temp_cell->declinaison, "InvGen") == 0))
+        {
+            random_word = Extract_random_base_word_from_tree(det);
+            temp_cell = randomFlechiesWord(random_word,det);
+        }
+        return temp_cell->flechie_word;
+    }
+    // PL + MASC DETERMINANT + INVPL
+    else
+    {
+        // First we assign a "Fem" and "PL" determinant
+        random_word = Extract_random_base_word_from_tree(det);
+        temp_cell = randomFlechiesWord(random_word,det);
+        while((isSubstringInString(temp_cell->declinaison, "PL") == 0) &&
+              (isSubstringInString(temp_cell->declinaison, "Mas") == 0 ||
+               isSubstringInString(temp_cell->declinaison, "InvGen") == 0))
+        {
+            random_word = Extract_random_base_word_from_tree(det);
+            temp_cell = randomFlechiesWord(random_word,det);
+        }
+        return temp_cell->flechie_word;
+    }
+}
+
+char* findVerb(p_tree ver, p_flechiescell noun_cell)
+{
+    char* random_word;
+    p_flechiescell temp_cell;
+    if(isSubstringInString(noun_cell->declinaison,"SG") == 1)
+    {
+        random_word = Extract_random_base_word_from_tree(ver);
+        temp_cell = randomFlechiesWord(random_word,ver);
+
+        // FRENCH : si le mot flechie sélectionné n'est pas accordé comme le nom, on en choisis un autre
+        while( isSubstringInString(temp_cell->declinaison,"SG+P3") == 0 )
+        {
+            random_word = Extract_random_base_word_from_tree(ver);
+            temp_cell = randomFlechiesWord(random_word,ver);
+        }
+        return temp_cell->flechie_word;
+    }
+    else
+    {
+        // The verb must pluriel too
+        random_word = Extract_random_base_word_from_tree(ver);
+        temp_cell = randomFlechiesWord(random_word,ver);
+
+
+        // FRENCH : si le mot flechie sélectionné n'est pas accordé comme le nom, on en choisis un autre
+        while( isSubstringInString(temp_cell->declinaison,"PL+P3") == 0 )
+        {
+            random_word = Extract_random_base_word_from_tree(ver);
+            temp_cell = randomFlechiesWord(random_word,ver);
+        }
+        return temp_cell->flechie_word;
+    }
+}
+
+
+
+char** generateurPhraseFlechie(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree, p_tree det,int modele){
+    char** phrase = NULL;
+    int size;
+    if(modele == 1)
+    {
+        phrase = malloc( sizeof(char*) * 6);
+        size = 6;
+    }
+    else if(modele==3)
+    {
+        phrase = malloc( sizeof(char*) * 5);
+        size = 5;
+    }
+    else
+    {
+        phrase = malloc( sizeof(char*) * 8);
+        size = 8;
+    }
+
+    // We allocate a size to each case of the list
+    for (int i=0; i<size;i++) {
+        phrase[i] = malloc(sizeof(char)* 20);
+    }
+
+    char *random_word;
+    p_flechiescell temp_cell;
+    switch (modele)
+    {
+        case 1:
+        {
+            //noun : adjective : verb : noun
+
+            // First noun
+            random_word = Extract_random_base_word_from_tree(nom_tree);
+            temp_cell = randomFlechiesWord(random_word,nom_tree);
+            phrase[1] = temp_cell->flechie_word;
+
+            //find determinant of the first noun
+            phrase[0] = findDeterminantandAdjectives(det, temp_cell);
+
+            phrase[2] = findDeterminantandAdjectives(adj_tree,temp_cell);
+
+            phrase[3] = findVerb(ver_tree,temp_cell);
+
+            // Second noun
+            random_word = Extract_random_base_word_from_tree(nom_tree);
+            temp_cell = randomFlechiesWord(random_word,nom_tree);
+            phrase[5] = temp_cell->flechie_word;
+
+            //find determinant of the second noun
+            phrase[4] = findDeterminantandAdjectives(det, temp_cell);
+            break;
+        }
+        case 2:
+        {
+            // noun : qui : verb : verb : noun : adjective
+
+            // First noun
+            random_word = Extract_random_base_word_from_tree(nom_tree);
+            temp_cell = randomFlechiesWord(random_word,nom_tree);
+            phrase[1] = temp_cell->flechie_word;
+
+            //find determinant of the first noun
+            phrase[0] = findDeterminantandAdjectives(det, temp_cell);
+
+            phrase[2] = "qui";
+            phrase[3] = findVerb(ver_tree,temp_cell);
+            phrase[4] = findVerb(ver_tree,temp_cell);
+
+            // Second noun
+            random_word = Extract_random_base_word_from_tree(nom_tree);
+            temp_cell = randomFlechiesWord(random_word,nom_tree);
+            phrase[6] = temp_cell->flechie_word;
+
+            //find determinant of the second noun
+            phrase[5] = findDeterminantandAdjectives(det, temp_cell);
+
+            phrase[7] = findDeterminantandAdjectives(adj_tree, temp_cell);
+            break;
+        }
+        case 3:
+        {
+            // noun : adjective : verb : adverbe
+
+            // First noun
+            random_word = Extract_random_base_word_from_tree(nom_tree);
+            temp_cell = randomFlechiesWord(random_word,nom_tree);
+            phrase[1] = temp_cell->flechie_word;
+
+            //find determinant of the first noun
+            phrase[0] = findDeterminantandAdjectives(det, temp_cell);
+
+            phrase[2] = findDeterminantandAdjectives(adj_tree, temp_cell);
+            phrase[3] = findVerb(ver_tree,temp_cell);
+
+            phrase[4] = Extract_random_base_word_from_tree(adv_tree);
+
             break;
         }
     }

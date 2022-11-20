@@ -15,7 +15,7 @@ int isSubstringInString(char*, char*);
 void addToTree(p_dictionarycell, p_tree);
 void displayNodeChild(p_node);
 
-void init_trees(p_tree,p_tree,p_tree,p_tree);
+void init_trees(p_tree,p_tree,p_tree,p_tree,p_tree);
 
 p_node findIfLetterInList(p_node ,char );
 p_node createNodeInTree(p_node, char* );
@@ -23,7 +23,11 @@ p_node createNodeInTree(p_node, char* );
 p_node isWordInTree(char *word, p_tree);
 
 char** generateurPhraseBase(p_tree, p_tree, p_tree, p_tree, int);
-char* Extract_random_word_from_tree( p_tree tree);
+char* findDeterminantandAdjectives(p_tree det, p_flechiescell noun_cell);
+char* findVerb(p_tree ver, p_flechiescell noun_cell);
+char* findAdj(p_tree adj, p_flechiescell noun_cell);
+char** generateurPhraseFlechie(p_tree ver_tree, p_tree nom_tree, p_tree adj_tree, p_tree adv_tree, p_tree det,int modele);
+char* Extract_random_base_word_from_tree(p_tree tree);
 int countNumberOfNextOfANode(p_node node);
 
 p_flechiescell randomFlechiesWord(char*, p_tree);

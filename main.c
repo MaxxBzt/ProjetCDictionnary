@@ -13,10 +13,11 @@ int main()
     p_tree adj_arbre = createTree('0');
     p_tree adv_arbre = createTree('0');
     p_tree nom_arbre = createTree('0');
-    init_trees(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
+    p_tree determinants = createTree('0');
+    init_trees(verbe_arbre, adj_arbre, adv_arbre, nom_arbre,determinants);
     srand(time(NULL));
 
-    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre);
+    starter_menu(verbe_arbre, adj_arbre, adv_arbre, nom_arbre,determinants);
     return 0;
 }
 
