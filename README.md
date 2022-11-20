@@ -1,5 +1,7 @@
 # ProjetCDictionnary
 
+**by NGASSA Yoke, LIM Emy and BEZOT Maxime**
+
 ### WARNING
 
 Please change the path to the **`dictionaire_non_accentue file`** before launching the program. It can be found when doing `ctrl+F (cmd+F on mac)` in the **handleTrees.c**. 
